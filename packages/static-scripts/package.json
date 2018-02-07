@@ -1,20 +1,17 @@
 {
   "name": "static-scripts",
-  "description": "Develop, test, and build Static Websites with zero configuration.",
+  "description":
+    "Develop, test, and build Static Websites with zero configuration.",
   "author": "Nolan Phillips <ncphillips.19@gmail.com>",
   "repository": "forestryio/create-static-site",
   "license": "MIT",
   "bin": {
-    "static-scripts-build": "scripts/build.js"
+    "static-scripts-start": "scripts/start.sh"
   },
   "bugs": {
     "url": "https://github.com/forestryio/create-static-site/issues"
   },
-  "files": [
-    "scripts",
-    "template",
-    "hugo-template"
-  ],
+  "files": ["scripts", "template", "hugo-template"],
   "dependencies": {
     "chalk": "^2.3.0",
     "react-dev-utils": "^4.2.1",
