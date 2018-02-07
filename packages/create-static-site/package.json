@@ -1,0 +1,30 @@
+{
+  "name": "create-static-site",
+  "version": "1.1.1",
+  "description": "Create a Static Site zero build scripts!",
+  "bin": {
+    "create-static-site": "./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forestryio/create-static-site.git"
+  },
+  "keywords": ["jamstack", "hugo", "jekyll", "static"],
+  "author": "Nolan Phillips <ncphillips.19@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/forestryio/create-static-site/issues"
+  },
+  "homepage": "https://github.com/forestryio/create-static-site#readme",
+  "dependencies": {
+    "chalk": "^2.3.0",
+    "commander": "^2.12.2",
+    "cross-spawn": "^5.1.0",
+    "fs-extra": "^5.0.0",
+    "hyperquest": "^2.1.2",
+    "semver": "^5.4.1",
+    "tar-pack": "^3.4.1",
+    "tmp": "^0.0.33",
+    "validate-npm-package-name": "^3.0.0"
+  }
+}

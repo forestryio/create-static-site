@@ -1,0 +1,17 @@
+{
+  "lerna": "2.5.1",
+  "packages": ["packages/create-static-site", "packages/static-scripts"],
+  "version": "independent",
+  "changelog": {
+    "repo": "forestryio/create-static-site",
+    "labels": {
+      "tag: new feature": ":rocket: New Feature",
+      "tag: breaking change": ":boom: Breaking Change",
+      "tag: bug fix": ":bug: Bug Fix",
+      "tag: enhancement": ":nail_care: Enhancement",
+      "tag: documentation": ":memo: Documentation"
+    },
+    "cacheDir": ".changelog"
+  },
+  "npmClient": "yarn"
+}

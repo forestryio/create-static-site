@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "scripts": {
+    "changelog": "lerna-changelog",
+    "create-static-site": "./tasks/ctp.sh",
+    "install-create-static-site": "./tasks/install-ctp.sh",
+    "publish": "lerna publish",
+    "postinstall": "lerna bootstrap",
+    "next": "lerna publish --npm-tag=next"
+  },
+  "devDependencies": {
+    "lerna": "^2.5.1",
+    "lerna-changelog": "^0.7.0",
+    "prettier": "^1.9.2"
+  }
+}
