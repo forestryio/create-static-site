@@ -1,14 +1,15 @@
 // Learn more about configuring Webpack
 // https://webpack.js.org/concepts/
-import webpack from "webpack"
+const webpack = require("webpack")
 
-export default function(env) {
-  const isProduction = (env === "production") || (process.env.NODE_ENV === "production")
+module.exports = function(env) {
+  const isProduction =
+    env === "production" || process.env.NODE_ENV === "production"
 
   return {
     output: {
       path: __dirname + "/js/",
-      filename: "[name].js"
+      filename: "[name].js",
     },
     externals: {
       // Any third-party deps added via a <script> tag
@@ -28,23 +29,22 @@ export default function(env) {
           loader: "babel-loader",
           test: /\.js?$/,
           exclude: /node_modules/,
-          query: {cacheDirectory: true}
-        }
-      ]
+          query: { cacheDirectory: true },
+        },
+      ],
     },
-    devtool: (isProduction) ? "nosources-source-map" : "cheap-eval-source-map",
+    devtool: isProduction ? "nosources-source-map" : "cheap-eval-source-map",
     plugins: [
       new webpack.ProvidePlugin({
         // Automatically make packages available
         // without having to require them
         // $: "jquery",
         // jQuery: "jquery",
-        fetch: "imports-loader?this=>global!exports?global.fetch!whatwg-fetch"
+        fetch: "imports-loader?this=>global!exports?global.fetch!whatwg-fetch",
       }),
       new webpack.optimize.UglifyJsPlugin({
-        sourceMap: true
-      })
-    ]
+        sourceMap: true,
+      }),
+    ],
   }
 }
-

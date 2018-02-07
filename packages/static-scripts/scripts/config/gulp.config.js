@@ -1,9 +1,9 @@
 // Configures gulp build
 // See gulpfile.babel.js for build pipeline
-import {resolve} from "path"
-import hugo from "hugo-bin"
+const { resolve } = require("path")
+const hugo = require("hugo-bin")
 
-export default function(env) {
+module.exports = function(env) {
   const src = "src/"
   const dest = "hugo/"
   const tmp = ".tmp/"
@@ -19,28 +19,40 @@ export default function(env) {
       label: "Hugo",
       command: hugo,
       args: {
-        default: ["-v", "--source", resolve(dest), "--destination", resolve(build)],
-        development: ["-b", "http://localhost:3000", "--buildDrafts", "--buildFuture", "--buildExpired"],
+        default: [
+          "-v",
+          "--source",
+          resolve(dest),
+          "--destination",
+          resolve(build),
+        ],
+        development: [
+          "-b",
+          "http://localhost:3000",
+          "--buildDrafts",
+          "--buildFuture",
+          "--buildExpired",
+        ],
         preview: ["-b", "http://localhost:3000"],
-        production: []
-      }
+        production: [],
+      },
     },
     styles: {
       src: src + "css/*.css",
       watch: src + "css/**/*.css",
       dest: dest + "static/css",
-      tmp: tmp + "css"
+      tmp: tmp + "css",
     },
     scripts: {
       src: src + "js/*+(js|jsx)",
       watch: src + "js/**/*+(js|jsx)",
       dest: dest + "static/js/",
-      tmp: tmp + "js/"
+      tmp: tmp + "js/",
     },
     images: {
       src: src + "img/**/*.+(png|jpg|jpeg|gif|svg|webp)",
       watch: src + "img/**/*.+(png|jpg|jpeg|gif|svg|webp)",
-      dest: dest + "static/img/"
+      dest: dest + "static/img/",
     },
     svg: {
       src: src + "img/**/*.svg",
@@ -52,11 +64,11 @@ export default function(env) {
           symbol: {
             sprite: "sprite.symbol.svg",
             prefix: "svg-%s",
-            dest: "."
-          }
+            dest: ".",
+          },
         },
-        example: (isProduction) ? false : true
-      }
-    }
+        example: isProduction ? false : true,
+      },
+    },
   }
 }
