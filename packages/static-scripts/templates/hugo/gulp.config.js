@@ -4,17 +4,11 @@ const { resolve } = require("path")
 const hugo = require("hugo-bin")
 
 module.exports = function(env) {
-  const src = "src/"
   const dest = "hugo/"
-  const tmp = ".tmp/"
   const build = "dist/"
-  const isProduction = process.env.NODE_ENV === "production"
 
   return {
-    src: src,
     dest: dest,
-    tmp: tmp,
-    build: build,
     generator: {
       label: "Hugo",
       command: hugo,
@@ -35,39 +29,6 @@ module.exports = function(env) {
         ],
         preview: ["-b", "http://localhost:3000"],
         production: [],
-      },
-    },
-    styles: {
-      src: src + "css/*.css",
-      watch: src + "css/**/*.css",
-      dest: dest + "static/css",
-      tmp: tmp + "css",
-    },
-    scripts: {
-      src: src + "js/*+(js|jsx)",
-      watch: src + "js/**/*+(js|jsx)",
-      dest: dest + "static/js/",
-      tmp: tmp + "js/",
-    },
-    images: {
-      src: src + "img/**/*.+(png|jpg|jpeg|gif|svg|webp)",
-      watch: src + "img/**/*.+(png|jpg|jpeg|gif|svg|webp)",
-      dest: dest + "static/img/",
-    },
-    svg: {
-      src: src + "img/**/*.svg",
-      watch: src + "img/**/*.svg",
-      dest: dest + "static/svg/",
-      config: {
-        dest: ".",
-        mode: {
-          symbol: {
-            sprite: "sprite.symbol.svg",
-            prefix: "svg-%s",
-            dest: ".",
-          },
-        },
-        example: isProduction ? false : true,
       },
     },
   }
