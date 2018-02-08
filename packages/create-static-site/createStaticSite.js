@@ -64,6 +64,7 @@ const program = new commander.Command(packageJson.name)
   .action(name => {
     projectName = name
   })
+  .option("--template <template>", "hugo or jekyll")
   .option("--verbose", "print additional logs")
   .option(
     "--scripts-version <alternative-package>",
@@ -107,12 +108,36 @@ const program = new commander.Command(packageJson.name)
 if (typeof projectName === "undefined") {
   console.error("Please specify the project directory:")
   console.log(
-    `  ${chalk.cyan(program.name())} ${chalk.green("<project-directory>")}`
+    `  ${chalk.cyan(program.name())} ${chalk.green(
+      "<project-directory> --template=<template>"
+    )}`
   )
   console.log()
   console.log("For example:")
   console.log(
-    `  ${chalk.cyan(program.name())} ${chalk.green("my-static-site")}`
+    `  ${chalk.cyan(program.name())} ${chalk.green(
+      "my-hugo-site --template=hugo"
+    )}`
+  )
+  console.log()
+  console.log(
+    `Run ${chalk.cyan(`${program.name()} --help`)} to see all options.`
+  )
+  process.exit(1)
+}
+if (typeof program.template === "undefined") {
+  console.error("Please specify the project template:")
+  console.log(
+    `  ${chalk.cyan(program.name())} ${chalk.green(
+      "<project-directory> --template=<template>"
+    )}`
+  )
+  console.log()
+  console.log("For example:")
+  console.log(
+    `  ${chalk.cyan(program.name())} ${chalk.green(
+      "my-hugo-site --template=hugo"
+    )}`
   )
   console.log()
   console.log(
@@ -129,20 +154,12 @@ function printValidationResults(results) {
   }
 }
 
-const hiddenProgram = new commander.Command()
-  .option(
-    "--internal-testing-template <path-to-template>",
-    "(internal usage only, DO NOT RELY ON THIS) " +
-      "use a non-standard application template"
-  )
-  .parse(process.argv)
-
 createApp(
   projectName,
   program.verbose,
   program.scriptsVersion,
   program.useNpm,
-  hiddenProgram.internalTestingTemplate
+  program.template
 )
 
 function createApp(name, verbose, version, useNpm, template) {

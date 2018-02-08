@@ -17,7 +17,7 @@ npm install -g create-static-site
 Create your new package
 
 ```bash
-create-static-site my-site
+create-static-site my-site --template=hugo
 ```
 
 A new directory will be created with the following contents:

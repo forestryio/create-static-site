@@ -29,6 +29,7 @@ module.exports = function(
   const ownPackageName = require(path.join(__dirname, "..", "package.json"))
     .name
   const ownPath = path.join(appPath, "node_modules", ownPackageName)
+  const templatePath = path.join(ownPath, "templates", template)
   // const appPackage = require(path.join(appPath, "package.json"))
   const useYarn = fs.existsSync(path.join(appPath, "yarn.lock"))
 
@@ -67,9 +68,7 @@ module.exports = function(
   }
 
   // Copy the files for the user
-  const templatePath = template
-    ? path.resolve(originalDirectory, template)
-    : path.join(ownPath, "hugo-template")
+
   if (fs.existsSync(templatePath)) {
     fs.copySync(templatePath, appPath)
   } else {
