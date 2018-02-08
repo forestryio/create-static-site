@@ -6,12 +6,12 @@
   "repository": "forestryio/create-static-site",
   "license": "MIT",
   "bin": {
-    "static-scripts-start": "scripts/start.sh"
+    "static-scripts": "./bin/static-scripts.js"
   },
   "bugs": {
     "url": "https://github.com/forestryio/create-static-site/issues"
   },
-  "files": ["scripts", "template", "hugo-template"],
+  "files": ["bin", "scripts", "template", "hugo-template"],
   "dependencies": {
     "chalk": "^2.3.0",
     "react-dev-utils": "^4.2.1",
