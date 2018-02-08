@@ -30,41 +30,33 @@ module.exports = function(
     .name
   const ownPath = path.join(appPath, "node_modules", ownPackageName)
   const templatePath = path.join(ownPath, "templates", template)
-  // const appPackage = require(path.join(appPath, "package.json"))
+  const templatePackage = require(path.join(templatePath, "package.json"))
+  const appPackage = require(path.join(appPath, "package.json"))
   const useYarn = fs.existsSync(path.join(appPath, "yarn.lock"))
 
   // // Copy over some of the devDependencies
-  // appPackage.dependencies = appPackage.dependencies || {}
+  appPackage.dependencies = appPackage.dependencies || {}
+  appPackage.devDependencies = appPackage.devDependencies || {}
+  if (templatePackage.dependencies) {
+    appPackage.dependencies = {
+      ...appPackage.dependencies,
+      ...templatePackage.dependencies,
+    }
+  }
+  if (templatePackage.devDependencies) {
+    appPackage.dependencies = {
+      ...appPackage.devDependencies,
+      ...templatePackage.devDependencies,
+    }
+  }
 
   // // Setup the script rules
-  // appPackage.scripts = {
-  //   start: "gulp server",
-  //   preview: "cross-env NODE_ENV=production GENRATOR_ARGS=preview gulp server",
-  //   build: "cross-env NODE_ENV=production gulp build",
-  //   clean: "gulp clean",
-  //   hugo: "node_modules/.bin/hugo --source hugo/",
-  //   eslint: "./node_modules/eslint/bin/eslint.js src/js/ --ext .js",
-  //   "eslint:fix": "./node_modules/eslint/bin/eslint.js src/js/ --ext .js --fix",
-  //   stylelint: "npm run stylelint:css && npm run stylelint:scss",
-  //   "stylelint:fix":
-  //     "npm run stylelint:css --fix && npm run stylelint:scss --fix",
-  //   "stylelint:css":
-  //     "./node_modules/stylelint/bin/stylelint.js src/css/**/*.css",
-  //   "stylelint:scss":
-  //     "./node_modules/stylelint/bin/stylelint.js src/scss/**/*.scss",
-  // }
-
-  // fs.writeFileSync(
-  //   path.join(appPath, "package.json"),
-  //   JSON.stringify(appPackage, null, 2)
-  // )
-
-  const readmeExists = fs.existsSync(path.join(appPath, "README.md"))
-  if (readmeExists) {
-    fs.renameSync(
-      path.join(appPath, "README.md"),
-      path.join(appPath, "README.old.md")
-    )
+  appPackage.scripts = {
+    ...appPackage.scripts,
+    ...templatePackage.dependencies,
+    start: "static-scripts start",
+    preview: "static-scripts preview",
+    build: "static-scripts build",
   }
 
   // Copy the files for the user
@@ -76,6 +68,19 @@ module.exports = function(
       `Could not locate supplied template: ${chalk.green(templatePath)}`
     )
     return
+  }
+
+  fs.writeFileSync(
+    path.join(appPath, "package.json"),
+    JSON.stringify(appPackage, null, 2)
+  )
+
+  const readmeExists = fs.existsSync(path.join(appPath, "README.md"))
+  if (readmeExists) {
+    fs.renameSync(
+      path.join(appPath, "README.md"),
+      path.join(appPath, "README.old.md")
+    )
   }
 
   // Rename gitignore after the fact to prevent npm from renaming it to .npmignore
