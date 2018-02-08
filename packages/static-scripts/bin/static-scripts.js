@@ -44,7 +44,6 @@ const scripts = {
   build: ["cross-env", ["NODE_ENV=production", "gulp", ...gulpArgs, "build"]],
 }
 
-console.log("Script:", script)
 switch (script) {
   case "build":
   case "preview":
