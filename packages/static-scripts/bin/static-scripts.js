@@ -23,38 +23,40 @@ const uhh = {
   result: null,
 }
 
+const gulpArgs = [
+  "--gulpfile",
+  "node_modules/static-scripts/scripts/gulpFile.js",
+  "--cwd",
+  ".",
+]
+const scripts = {
+  start: ["gulp", [...gulpArgs, "server"]],
+  preview: [
+    "cross-env",
+    [
+      "NODE_ENV=production",
+      "GENRATOR_ARGS=preview",
+      "gulp",
+      ...gulpArgs,
+      "server",
+    ],
+  ],
+  build: ["cross-env", ["NODE_ENV=production", "gulp", ...gulpArgs, "build"]],
+}
+
 console.log("Script:", script)
 switch (script) {
   case "build":
-  case "eject":
+  case "preview":
   case "start":
-    uhh.result = spawn.sync(
-      "gulp",
-      [
-        "--gulpfile",
-        "node_modules/static-scripts/scripts/start.js",
-        "--cwd",
-        ".",
-        "server",
-      ],
-      { stdio: "inherit" }
-    )
+    uhh.result = spawn.sync(...scripts[script], { stdio: "inherit" })
     break
-  case "test": {
-    uhh.result = spawn.sync(
-      "node",
-      nodeArgs
-        .concat(require.resolve("../scripts/" + script))
-        .concat(args.slice(scriptIndex + 1)),
-      { stdio: "inherit" }
-    )
-    break
-  }
+  case "eject":
   default:
     console.log('Unknown script "' + script + '".')
-    console.log("Perhaps you need to update react-scripts?")
+    console.log("Perhaps you need to update static-scripts?")
     console.log(
-      "See: https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#updating-to-new-releases"
+      "See: https://github.com/forestryio/create-static-site/blob/master/packages/static-scripts/template/README.md#updating-to-new-releases"
     )
     break
 }

@@ -7,9 +7,8 @@
   "license": "MIT",
   "scripts": {
     "start": "static-scripts start",
-    "preview":
-      "cross-env NODE_ENV=production GENRATOR_ARGS=preview gulp server",
-    "build": "cross-env NODE_ENV=production gulp build",
+    "preview": "static-scripts preview",
+    "build": "static-scripts build",
     "clean": "gulp clean",
     "hugo": "node_modules/.bin/hugo --source hugo/",
     "eslint": "./node_modules/eslint/bin/eslint.js src/js/ --ext .js",
@@ -23,6 +22,7 @@
       "./node_modules/stylelint/bin/stylelint.js src/scss/**/*.scss"
   },
   "devDependencies": {
+    "hugo-bin": "^0.18.0",
     "gulp": "^3.9.1"
   }
 }
