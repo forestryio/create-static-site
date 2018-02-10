@@ -218,7 +218,7 @@ inquirer
         sitePath,
         "node_modules",
         ".bin",
-        "react-scripts.cmd"
+        "static-scripts.cmd"
       )
       let windowsCmdFileContent
       if (process.platform === "win32") {
