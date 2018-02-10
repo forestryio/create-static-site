@@ -65,7 +65,7 @@ npm run build
 .
 ├── .tmp/                  // Temporary directory for development server
 ├── dist/                  // The production build
-├── jekyll/                // The Jekyll project, with all content and static files
+├── site/                  // The Jekyll project, with all content and static files
 |   ├── .forestry/         // Contains Forestry.io configuration files
 |   ├── _data/             // YAML files containing site data 
 |   ├── _posts/            // Jekyll's built-in blogging content type
@@ -85,7 +85,7 @@ npm run build
 ```
 
 # Inline SVG
-Any SVGs found in `src/img/` will be combined into a single SVG Sprite at `jekyll/svg/sprite.symbol.svg`.
+Any SVGs found in `src/img/` will be combined into a single SVG Sprite at `site/svg/sprite.symbol.svg`.
 
 This boilerplate comes with a simple include for using SVGs in your layouts. You can select an svg by passing in its ID.
 
@@ -151,14 +151,14 @@ Both PostCSS and Webpack use `.browserslistrc` to decide on browser support when
 
 - To learn about how to develop with Jekyll, see [Jekyll's documentation](https://jekyllrb.com/docs/structure/)
 - To learn how to use Jekyll's templating system, see the [documentation](https://jekyllrb.com/docs/templates/)
-- Static files are any files stored in the `jekyll/` directory *without* front matter.
-- Static files should be stored in the `jekyll/` folder as they should appear in the built site
-  *E.g, a CNAME file should be stored at `jekyll/CNAME` to become `/CNAME`*
+- Static files are any files stored in the `site/` directory *without* front matter.
+- Static files should be stored in the `site/` folder as they should appear in the built site
+  *E.g, a CNAME file should be stored at `site/CNAME` to become `/CNAME`*
 - Javascript files are compiled from the root of `src/js/` to `js/{filename}.js`
   - Javascript can be written using ES6, supporting `require()` and `import` statements from npm packages and local JS files
 - CSS files are compiled from the root of `src/css/` to `css/{filename}.css`
   - Import statements are resolved and included in the compiled CSS files
-- For compatibility with Forestry or other CMSs, ensure that compiled CSS and JS files in the `jekyll/` folder are always committed
+- For compatibility with Forestry or other CMSs, ensure that compiled CSS and JS files in the `site/` folder are always committed
 - Environment variables are provided to your templates, which can be accessed in templates as follows: `{{ getenv "HUGO_ENV" }}`
   - For development pipelines, this is equal to `development`
   - For production pipelines, this is equal to `production`

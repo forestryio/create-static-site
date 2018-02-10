@@ -3,7 +3,8 @@
 const { resolve } = require("path")
 
 module.exports = function(env) {
-  const dest = "jekyll/"
+  const dest = "site/"
+  const build = "dist/"
   const isProduction = process.env.NODE_ENV === "production"
 
   return {

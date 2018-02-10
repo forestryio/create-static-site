@@ -4,6 +4,6 @@ node_modules/
 
 # Ensure Hugo builds aren't committed to Git
 public/
-hugo/public/
+site/public/
 dist/
 .tmp/
