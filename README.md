@@ -34,23 +34,23 @@ my-site
 ├── .postcssrc.js
 ├── .stylelintrc.yml
 ├── site
-│   └── favicon.ico
-│   └── index.html
+│   ├── favicon.ico
+│   ├── index.html
 │   └── manifest.json
 └── src
-    └── css
-         └── styles.css
-         └── imports
-              └── resets.css
-    └── img
-         └── svg
-              └── bitbucket.svg
-              └── github.svg
-              └── gitlab.svg
+    ├── css
+    │   ├── styles.css
+    │   └── imports
+    │       └── resets.css
+    ├── img
+    │   └── svg
+    │       ├── bitbucket.svg
+    │       ├── github.svg
+    │       └── gitlab.svg
     └── js
-         └── scripts.js
-         └── imports
-              └── index.js
+        ├── scripts.js
+        └── imports
+            └── index.js
 ```
 
 No configuration or complicated folder structures, just the files you need to build your site.<br>
