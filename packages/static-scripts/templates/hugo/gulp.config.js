@@ -4,11 +4,7 @@ const { resolve } = require("path")
 const hugo = require("hugo-bin")
 
 module.exports = function(env) {
-  const dest = "site/"
-  const build = "dist/"
-
   return {
-    dest: dest,
     generator: {
       label: "Hugo",
       command: hugo,
@@ -18,7 +14,7 @@ module.exports = function(env) {
           "--source",
           resolve("site/"),
           "--destination",
-          resolve(build),
+          resolve("dist/"),
         ],
         development: [
           "-b",

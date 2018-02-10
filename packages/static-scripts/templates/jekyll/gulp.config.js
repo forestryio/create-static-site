@@ -8,7 +8,6 @@ module.exports = function(env) {
   const isProduction = process.env.NODE_ENV === "production"
 
   return {
-    dest: dest,
     generator: {
       label: "Jekyll",
       command: "bundle",

@@ -10,9 +10,7 @@ module.exports = function(env) {
   if (!config.generator) {
     throw new Error("`generator` must be provided by gulp.config.js")
   }
-  if (!config.dest) {
-    throw new Error("`dest` must be provided by gulp.config.js")
-  }
+  config.dest = config.dest || "site/"
   config.src = config.src || "src/"
   config.tmp = config.tmp || ".tmp/"
   config.build = config.build || "dist/"
@@ -51,7 +49,7 @@ module.exports = function(env) {
             dest: ".",
           },
         },
-        example: isProduction ? false : true,
+        example: !isProduction,
       },
       ...config.svg,
     },
