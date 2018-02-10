@@ -33,23 +33,20 @@ my-site
 ├── .gitignore
 ├── .postcssrc.js
 ├── .stylelintrc.yml
-├── site
-│   ├── favicon.ico
-│   ├── index.html
-│   └── manifest.json
-└── src
-    ├── css
+├── site/ # Depends on the static site generator
+└── src/
+    ├── css/
     │   ├── styles.css
     │   └── imports
     │       └── resets.css
-    ├── img
-    │   └── svg
+    ├── img/
+    │   └── svg/
     │       ├── bitbucket.svg
     │       ├── github.svg
     │       └── gitlab.svg
-    └── js
+    └── js/
         ├── scripts.js
-        └── imports
+        └── imports/
             └── index.js
 ```
 
