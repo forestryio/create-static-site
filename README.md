@@ -4,30 +4,85 @@
 
 # Create Static Site
 
-Create a new Static Site with zero build configuration.
+Create static websites with no build configuration.
 
-## Getting Started
+**You’ll need to have Node >= 6 on your local development machine**. You can use [nvm](https://github.com/creationix/nvm#installation) (macOS/Linux) or [nvm-windows](https://github.com/coreybutler/nvm-windows#node-version-manager-nvm-for-windows) to easily switch Node versions between different projects.
 
-Install `create-static-site`:
+## Creating a Static Site
 
-```bash
-npm install -g create-static-site
+To create a new app, run:
+
+```sh
+create-static-site --template [template] my-site
 ```
 
-Create your new package
+Replace `[template]` with either `hugo` or `jekyll`.
 
-```bash
-create-static-site my-site --template=hugo
-```
-
-A new directory will be created with the following contents:
+It will create a directory called `my-site` inside the current folder.<br>
+Inside that directory, it will generate the initial project structure and install the transitive dependencies:
 
 ```
-my-site/
-  # TODO
+my-site
+├── LICENSE
+├── node_modules
+├── package.json
+├── README.md
+├── static-scripts.config.js
+├── .browserslistrc
+├── .eslintrc.yml
+├── .gitignore
+├── .postcssrc.js
+├── .stylelintrc.yml
+├── site
+│   └── favicon.ico
+│   └── index.html
+│   └── manifest.json
+└── src
+    └── css
+         └── styles.css
+         └── imports
+              └── resets.css
+    └── img
+         └── svg
+              └── bitbucket.svg
+              └── github.svg
+              └── gitlab.svg
+    └── js
+         └── scripts.js
+         └── imports
+              └── index.js
 ```
 
-The latest version of `static-scripts` will be installed and added to the `devDependencies` in your `package.json`.
+No configuration or complicated folder structures, just the files you need to build your site.<br>
+Once the installation is done, you can open your project folder:
+
+```sh
+cd my-site
+```
+
+Inside the newly created project, you can run some built-in commands:
+
+### `npm start` or `yarn start`
+
+Runs the app in development mode.<br>
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+The page will automatically reload if you make changes to the code.<br>
+
+### `npm preview` or `yarn preview`
+
+TODO
+
+### `npm build` or `yarn build`
+
+Builds the site for production to the `dist` folder.<br>
+
+### `npm eject` or `yarn eject`
+
+
+## How to Update to New Versions?
+
+TODO:
 
 ## Philosophy
 
@@ -43,9 +98,15 @@ Your environment will have everything you need to build a modern static website:
 * A Static Site Generator (Jekyll or Hugo)
 * Language extras beyond ES6, like object spread operator.
 * Autoprefixed CSS
+* Hassle-free updates for the above tools with a single dependency.
 
 The tradeoff is that **these tools are preconfigured to work in a specific way**. If your project needs more customization, you can "eject" and customize it, but then you will need to maintain this configuration.
 
-## Some Thanks
+## Contributing
+
+We'd love to have your helping hand on `create-static-site`! See [CONTRIBUTING.md](CONTRIBUTING.md) for more information on what we're looking for and how to get started.
+
+
+## Acknowledgements
 
 This project is greatly inspired by the wonderful [create-react-app](https://github.com/facebookincubator/create-react-app/) project.
