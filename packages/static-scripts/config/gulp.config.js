@@ -20,7 +20,7 @@ const webpack = require("webpack-stream")
 // From Site
 const GulpConfig = require("./static-scripts.config")
 const browserSyncConfig = require("./.browsersyncrc")
-const webpackConfig = require("./.webpackrc")
+const webpackConfig = require("./webpack.config")
 
 const browserSync = BrowserSync.create()
 const gulpConfig = GulpConfig()

@@ -22,6 +22,11 @@ module.exports = function(env) {
       // utilities: path.resolve(__dirname, 'src/js/example/utilities/')
       // => import * from "utilities/filename"
     },
+    resolveLoader: {
+      modules: ["node_modules", "node_modules/static-scripts/node_modules"],
+      extensions: [".js", ".json"],
+      mainFields: ["loader", "main"],
+    },
     module: {
       rules: [
         {
