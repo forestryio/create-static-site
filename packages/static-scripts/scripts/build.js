@@ -1,9 +1,8 @@
 #!/usr/bin/env node
-const paths = require("../config/paths")
 const spawn = require("react-dev-utils/crossSpawn")
+const gulpArgs = require("./utils/gulpArgs")
 
 // Todo: Extract
-const gulpArgs = ["--gulpfile", paths.gulpConfig, "--cwd", paths.appPath]
 
 const scriptCmd = [
   "cross-env",
