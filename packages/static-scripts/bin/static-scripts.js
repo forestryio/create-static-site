@@ -31,12 +31,16 @@ const MESSAGES = {
     `Unknown script "${script}".\n` +
     "Perhaps you need to update static-scripts?\n" +
     "See: https://github.com/forestryio/create-static-site/blob/master/packages/static-scripts/template/README.md#updating-to-new-releases",
+  HELP: () =>
+    "react-scripts \n" +
+    "\tavailable scripts are: \n" +
+    Object.getOwnPropertyNames(SPAWN_SCRIPTS).map(script => `\t\t${script}\n`),
 }
 
 // SCRIPTS
 const gulpArgs = [
   "--gulpfile",
-  "node_modules/static-scripts/scripts/gulpFile.js",
+  "node_modules/static-scripts/config/gulp.config.js",
   "--cwd",
   ".",
 ]
@@ -54,6 +58,7 @@ const SPAWN_SCRIPTS = {
     ],
   ],
   build: ["cross-env", ["NODE_ENV=production", "gulp", ...gulpArgs, "build"]],
+  eject: ["node", [require.resolve("../scripts/eject")]],
 }
 
 // HANDLE ARGS & RUN THE SCRIPT
@@ -62,6 +67,12 @@ const args = process.argv.slice(2)
 
 const scriptIndex = args.findIndex(x => x === "build" || x === "start")
 const script = scriptIndex === -1 ? args[0] : args[scriptIndex]
+
+if (!script) {
+  console.log(MESSAGES.HELP())
+  process.exit(1)
+}
+
 const result = runScript(script)
 
 if (result) {
@@ -77,14 +88,11 @@ if (result) {
  * runScript(script)
  */
 function runScript(script) {
-  switch (script) {
-    case "build":
-    case "preview":
-    case "start":
-      return spawn.sync(...SPAWN_SCRIPTS[script], { stdio: "inherit" })
-    case "eject":
-    default:
-      console.log(MESSAGES.UNKNOWN_SCRIPT(script))
-      break
+  const scriptCmd = SPAWN_SCRIPTS[script]
+
+  if (!scriptCmd) {
+    return console.log(MESSAGES.UNKNOWN_SCRIPT(script))
   }
+
+  return spawn.sync(...scriptCmd, { stdio: "inherit" })
 }

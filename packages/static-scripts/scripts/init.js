@@ -57,6 +57,7 @@ module.exports = function(
     start: "static-scripts start",
     preview: "static-scripts preview",
     build: "static-scripts build",
+    eject: "static-scripts eject",
   }
 
   // Copy the files for the user
