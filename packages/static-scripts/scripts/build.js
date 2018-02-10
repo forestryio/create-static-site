@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const spawn = require("react-dev-utils/crossSpawn")
-const gulpArgs = require("./utils/gulpArgs")
+const gulpArgs = require("./gulpArgs")
 
 // Todo: Extract
 
