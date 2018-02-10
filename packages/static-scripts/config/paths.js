@@ -59,7 +59,7 @@ function getServedPath(appPackageJson) {
 // config after eject: we're in ./config/
 let paths = {
   gulpConfig: resolveApp("config/gulp.config.js"),
-  staticScriptsConfig: resolveApp("gulp.config.js"),
+  staticScriptsConfig: resolveApp("static-scripts.config.js"),
   dotenv: resolveApp(".env"),
   appPath: resolveApp("."),
   appBuild: resolveApp("build"),

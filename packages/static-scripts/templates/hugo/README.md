@@ -130,14 +130,12 @@ If you wish to manually cleanup, run:
 npm run clean
 ```
 
-# Configuration
-All build tasks are handled by Gulp and are located in `gulpfile.babel.js`. All parts of the build are configurable in discrete files to make management easy.
 
 ## Paths
-All build source and destination paths can be configured from `gulp.config.js`.
+All build source and destination paths can be configured from `static-scripts.config.js`.
 
 ## Hugo
-The build commands for Hugp can be configured from `gulp.config.js`. Build commands are set based on the `NODE_ENV` environment variable. You can optionally load different args using the `GENERATOR_ARGS` environment variable.
+The build commands for Hugp can be configured from `static-scripts.config.js`. Build commands are set based on the `NODE_ENV` environment variable. You can optionally load different args using the `GENERATOR_ARGS` environment variable.
 
 Four options are available:
 - `default`: the default build commands that are always run
@@ -151,8 +149,6 @@ The configuration for BrowserSync is found in `.browsersyncrc.js`
 ## CSS/SASS
 The configuration for PostCSS is found in `.postcssrc.js`
 
-## Javascript
-The configuration for Webpack is found in `.webpackrc.js`
 
 ## Browser support
 Both PostCSS and Webpack use `.browserslistrc` to decide on browser support when compiling.
