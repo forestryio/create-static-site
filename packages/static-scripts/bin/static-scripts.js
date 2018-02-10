@@ -57,7 +57,7 @@ const SPAWN_SCRIPTS = {
       "server",
     ],
   ],
-  build: ["cross-env", ["NODE_ENV=production", "gulp", ...gulpArgs, "build"]],
+  build: ["node", [require.resolve("../scripts/build")]],
   eject: ["node", [require.resolve("../scripts/eject")]],
 }
 
