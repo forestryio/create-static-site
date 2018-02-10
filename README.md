@@ -66,10 +66,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will automatically reload if you make changes to the code.<br>
 
-### `npm preview` or `yarn preview`
-
-TODO
-
 ### `npm build` or `yarn build`
 
 Builds the site for production to the `dist` folder.<br>
