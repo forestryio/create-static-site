@@ -57,7 +57,7 @@ function getServedPath(appPackageJson) {
 }
 
 // config after eject: we're in ./config/
-module.exports = {
+let paths = {
   gulpConfig: resolveApp("config/gulp.config.js"),
   staticScriptsConfig: resolveApp("gulp.config.js"),
   dotenv: resolveApp(".env"),
@@ -78,21 +78,9 @@ module.exports = {
 const resolveOwn = relativePath => path.resolve(__dirname, "..", relativePath)
 
 // config before eject: we're in ./node_modules/react-scripts/config/
-module.exports = {
+paths = {
+  ...paths,
   gulpConfig: resolveOwn("config/gulp.config.js"),
-  staticScriptsConfig: resolveApp("gulp.config.js"),
-  dotenv: resolveApp(".env"),
-  appPath: resolveApp("."),
-  appBuild: resolveApp("build"),
-  appPublic: resolveApp("public"),
-  appHtml: resolveApp("public/index.html"),
-  appIndexJs: resolveApp("src/index.js"),
-  appPackageJson: resolveApp("package.json"),
-  appSrc: resolveApp("src"),
-  testsSetup: resolveApp("src/setupTests.js"),
-  appNodeModules: resolveApp("node_modules"),
-  publicUrl: getPublicUrl(resolveApp("package.json")),
-  servedPath: getServedPath(resolveApp("package.json")),
   // These properties only exist before ejecting:
   ownPath: resolveOwn("."),
   ownNodeModules: resolveOwn("node_modules"), // This is empty on npm 3
@@ -102,7 +90,7 @@ module.exports = {
 const useTemplate = appDirectory === fs.realpathSync(path.join(__dirname, ".."))
 
 if (useTemplate) {
-  module.exports = {
+  paths = {
     dotenv: resolveOwn("template/.env"),
     appPath: resolveApp("."),
     appBuild: resolveOwn("../../build"),
@@ -122,6 +110,9 @@ if (useTemplate) {
 }
 
 // @remove-on-eject-end
+
+module.exports = paths
+
 module.exports.srcPaths = [module.exports.appSrc]
 
 module.exports.useYarn = fs.existsSync(
