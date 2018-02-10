@@ -47,16 +47,7 @@ const gulpArgs = [
 
 const SPAWN_SCRIPTS = {
   start: ["node", [require.resolve("../scripts/start")]],
-  preview: [
-    "cross-env",
-    [
-      "NODE_ENV=production",
-      "GENRATOR_ARGS=preview",
-      "gulp",
-      ...gulpArgs,
-      "server",
-    ],
-  ],
+  start: ["node", [require.resolve("../scripts/preview")]],
   build: ["node", [require.resolve("../scripts/build")]],
   eject: ["node", [require.resolve("../scripts/eject")]],
 }
