@@ -1,6 +1,7 @@
 // Learn more about configuring Webpack
 // https://webpack.js.org/concepts/
 const webpack = require("webpack")
+const babelConfig = require("./babel.config")
 
 module.exports = function(env) {
   const isProduction =
@@ -32,9 +33,12 @@ module.exports = function(env) {
         {
           // Enables ES6 syntax for JS
           loader: "babel-loader",
-          test: /\.js?$/,
+          test: /\.js$/,
           exclude: /node_modules/,
-          query: { cacheDirectory: true },
+          options: {
+            cacheDirectory: true,
+            ...babelConfig,
+          },
         },
       ],
     },
