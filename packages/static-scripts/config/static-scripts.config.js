@@ -1,5 +1,6 @@
 const path = require("path")
 const PROJECT = "../../../.."
+const { staticScriptsConfig } = require("./paths")
 const gulpFilePath = path.resolve(__dirname, PROJECT, "./gulp.config.js")
 const GulpConfig = require(gulpFilePath)
 

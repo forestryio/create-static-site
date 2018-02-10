@@ -18,8 +18,7 @@ const fs = require("fs-extra")
 const path = require("path")
 const execSync = require("child_process").execSync
 const chalk = require("chalk")
-const paths = require("./config/paths")
-const createJestConfig = require("./utils/createJestConfig")
+const paths = require("../config/paths")
 const inquirer = require("react-dev-utils/inquirer")
 const spawnSync = require("react-dev-utils/crossSpawn").sync
 const os = require("os")
@@ -73,10 +72,10 @@ inquirer
     console.log("Ejecting...")
 
     const ownPath = paths.ownPath
-    const appPath = paths.appPath
+    const sitePath = paths.appPath
 
     function verifyAbsent(file) {
-      if (fs.existsSync(path.join(appPath, file))) {
+      if (fs.existsSync(path.join(sitePath, file))) {
         console.error(
           `\`${file}\` already exists in your app folder. We cannot ` +
             "continue as you would lose all the changes in that file or directory. " +
@@ -87,7 +86,7 @@ inquirer
       }
     }
 
-    const folders = ["config", "config/jest", "scripts"]
+    const folders = ["config", "scripts"]
 
     // Make shallow array of files paths
     const files = folders.reduce((files, folder) => {
@@ -105,18 +104,11 @@ inquirer
     folders.forEach(verifyAbsent)
     files.forEach(verifyAbsent)
 
-    // Prepare Jest config early in case it throws
-    const jestConfig = createJestConfig(
-      filePath => path.posix.join("<rootDir>", filePath),
-      null,
-      paths.srcPaths
-    )
-
     console.log()
-    console.log(cyan(`Copying files into ${appPath}`))
+    console.log(cyan(`Copying files into ${sitePath}`))
 
     folders.forEach(folder => {
-      fs.mkdirSync(path.join(appPath, folder))
+      fs.mkdirSync(path.join(sitePath, folder))
     })
 
     files.forEach(file => {
@@ -140,12 +132,12 @@ inquirer
           )
           .trim() + "\n"
       console.log(`  Adding ${cyan(file.replace(ownPath, ""))} to the project`)
-      fs.writeFileSync(file.replace(ownPath, appPath), content)
+      fs.writeFileSync(file.replace(ownPath, sitePath), content)
     })
     console.log()
 
     const ownPackage = require(path.join(ownPath, "package.json"))
-    const appPackage = require(path.join(appPath, "package.json"))
+    const appPackage = require(path.join(sitePath, "package.json"))
 
     console.log(cyan("Updating the dependencies"))
     const ownPackageName = ownPackage.name
@@ -201,22 +193,19 @@ inquirer
 
     console.log()
     console.log(cyan("Configuring package.json"))
-    // Add Jest config
-    console.log(`  Adding ${cyan("Jest")} configuration`)
-    appPackage.jest = jestConfig
 
     fs.writeFileSync(
-      path.join(appPath, "package.json"),
+      path.join(sitePath, "package.json"),
       JSON.stringify(appPackage, null, 2) + os.EOL
     )
     console.log()
 
     // "Don't destroy what isn't ours"
-    if (ownPath.indexOf(appPath) === 0) {
+    if (ownPath.indexOf(sitePath) === 0) {
       try {
         // remove react-scripts and react-scripts binaries from app node_modules
         Object.keys(ownPackage.bin).forEach(binKey => {
-          fs.removeSync(path.join(appPath, "node_modules", ".bin", binKey))
+          fs.removeSync(path.join(sitePath, "node_modules", ".bin", binKey))
         })
         fs.removeSync(ownPath)
       } catch (e) {
@@ -226,7 +215,7 @@ inquirer
 
     if (paths.useYarn) {
       const windowsCmdFilePath = path.join(
-        appPath,
+        sitePath,
         "node_modules",
         ".bin",
         "react-scripts.cmd"
