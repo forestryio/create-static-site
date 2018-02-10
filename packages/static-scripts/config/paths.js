@@ -58,6 +58,8 @@ function getServedPath(appPackageJson) {
 
 // config after eject: we're in ./config/
 module.exports = {
+  gulpConfig: resolveApp("config/gulp.config.js"),
+  staticScriptsConfig: resolveApp("gulp.config.js"),
   dotenv: resolveApp(".env"),
   appPath: resolveApp("."),
   appBuild: resolveApp("build"),
@@ -77,6 +79,8 @@ const resolveOwn = relativePath => path.resolve(__dirname, "..", relativePath)
 
 // config before eject: we're in ./node_modules/react-scripts/config/
 module.exports = {
+  gulpConfig: resolveOwn("config/gulp.config.js"),
+  staticScriptsConfig: resolveApp("gulp.config.js"),
   dotenv: resolveApp(".env"),
   appPath: resolveApp("."),
   appBuild: resolveApp("build"),
@@ -116,8 +120,8 @@ if (useTemplate) {
     ownNodeModules: resolveOwn("node_modules"),
   }
 }
-// @remove-on-eject-end
 
+// @remove-on-eject-end
 module.exports.srcPaths = [module.exports.appSrc]
 
 module.exports.useYarn = fs.existsSync(

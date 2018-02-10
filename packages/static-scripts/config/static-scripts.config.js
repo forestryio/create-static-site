@@ -1,8 +1,7 @@
 const path = require("path")
 const PROJECT = "../../../.."
 const { staticScriptsConfig } = require("./paths")
-const gulpFilePath = path.resolve(__dirname, PROJECT, "./gulp.config.js")
-const GulpConfig = require(gulpFilePath)
+const GulpConfig = require(staticScriptsConfig)
 
 // Todo: Create sane defaults
 module.exports = function(env) {
