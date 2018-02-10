@@ -14,6 +14,9 @@ process.on("unhandledRejection", err => {
   throw err
 })
 
+// SCRIPTS
+const AVAILABLE_SCRIPTS = ["start", "build", "preview", "eject"]
+
 // CONSOLE OUTPUT MESSAGES
 const MESSAGES = {
   SIGKILL: () =>
@@ -34,22 +37,7 @@ const MESSAGES = {
   HELP: () =>
     "react-scripts \n" +
     "\tavailable scripts are: \n" +
-    Object.getOwnPropertyNames(SPAWN_SCRIPTS).map(script => `\t\t${script}\n`),
-}
-
-// SCRIPTS
-const gulpArgs = [
-  "--gulpfile",
-  "node_modules/static-scripts/config/gulp.config.js",
-  "--cwd",
-  ".",
-]
-
-const SPAWN_SCRIPTS = {
-  start: ["node", [require.resolve("../scripts/start")]],
-  start: ["node", [require.resolve("../scripts/preview")]],
-  build: ["node", [require.resolve("../scripts/build")]],
-  eject: ["node", [require.resolve("../scripts/eject")]],
+    AVAILABLE_SCRIPTS.map(script => `\t\t${script}\n`),
 }
 
 // HANDLE ARGS & RUN THE SCRIPT
@@ -79,11 +67,15 @@ if (result) {
  * runScript(script)
  */
 function runScript(script) {
-  const scriptCmd = SPAWN_SCRIPTS[script]
-
-  if (!scriptCmd) {
+  if (!isValidScript(script)) {
     return console.log(MESSAGES.UNKNOWN_SCRIPT(script))
   }
 
-  return spawn.sync(...scriptCmd, { stdio: "inherit" })
+  return spawn.sync("node", [require.resolve(`../scripts/${script}`)], {
+    stdio: "inherit",
+  })
+}
+
+function isValidScript(script) {
+  return AVAILABLE_SCRIPTS.indexOf(script) >= 0
 }
