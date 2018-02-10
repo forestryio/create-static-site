@@ -18,9 +18,9 @@ const util = require("gulp-util")
 const webpack = require("webpack-stream")
 
 // From Site
-const GulpConfig = require("./config/gulp.config")
-const browserSyncConfig = require("./config/.browsersyncrc")
-const webpackConfig = require("./config/.webpackrc")
+const GulpConfig = require("./static-scripts.config")
+const browserSyncConfig = require("./.browsersyncrc")
+const webpackConfig = require("./.webpackrc")
 
 const browserSync = BrowserSync.create()
 const gulpConfig = GulpConfig()

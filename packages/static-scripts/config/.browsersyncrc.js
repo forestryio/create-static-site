@@ -1,6 +1,6 @@
 // Full list of options:
 // http://www.browsersync.io/docs/options/
-const GulpConfig = require("./gulp.config")
+const GulpConfig = require("./static-scripts.config")
 
 module.exports = function(env) {
   const gulpConfig = GulpConfig()

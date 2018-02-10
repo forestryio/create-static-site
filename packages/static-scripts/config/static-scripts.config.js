@@ -1,12 +1,10 @@
-const path = require("path")
-const PROJECT = "../../../.."
-const gulpFilePath = path.resolve(__dirname, PROJECT, "./gulp.config.js")
-const GulpConfig = require(gulpFilePath)
+const { staticScriptsConfig } = require("./paths")
+const gerateStaticScriptsConfig = require(staticScriptsConfig)
 
 // Todo: Create sane defaults
 module.exports = function(env) {
   const isProduction = process.env.NODE_ENV === "production"
-  let config = GulpConfig(env)
+  let config = gerateStaticScriptsConfig(env)
   if (!config.generator) {
     throw new Error("`generator` must be provided by gulp.config.js")
   }
