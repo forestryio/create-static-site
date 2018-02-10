@@ -71,7 +71,7 @@ For example:
 
 ```
 npm run hugo -- new posts/example-post.md
-// => creates a new post at hugo/content/posts/example-post.md
+// => creates a new post at site/content/posts/example-post.md
 ```
 
 # Project Structure
@@ -79,7 +79,7 @@ npm run hugo -- new posts/example-post.md
 .
 ├── .tmp/                  // Temporary directory for development server
 ├── dist/                  // The production build
-├── hugo/                  // The Hugo project; content, data and static files
+├── site/                  // The Hugo project; content, data and static files
 |   ├── .forestry/         // Contains Forestry.io configuration files
 |   ├── content/           // Where all site content is stored 
 |   ├── data/              // TOML, YAML or JSON files containing site data 
@@ -97,7 +97,7 @@ npm run hugo -- new posts/example-post.md
 ```
 
 # Inline SVG
-Any SVGs found in `src/img/` will be combined into a single SVG Sprite at `hugo/static/svg/sprite.symbol.svg`.
+Any SVGs found in `src/img/` will be combined into a single SVG Sprite at `site/static/svg/sprite.symbol.svg`.
 
 This boilerplate comes with a simple partial for using SVGs in your layouts. You can select an svg by passing in it's ID.
 
@@ -161,13 +161,13 @@ Both PostCSS and Webpack use `.browserslistrc` to decide on browser support when
 
 - To learn about how to develop with Hugo, see [Hugo's documentation](http://gohugo.io/getting-started/directory-structure/)
 - To learn how to use Hugo's templating system, see the [documentation](http://gohugo.io/templates/introduction/)
-- Static files should be stored in the `hugo/static/` folder as they should appear in the built site
-  *E.g, a CNAME file should be stored at `hugo/static/CNAME` to become `/CNAME`*
+- Static files should be stored in the `site/static/` folder as they should appear in the built site
+  *E.g, a CNAME file should be stored at `site/static/CNAME` to become `/CNAME`*
 - Javascript files are compiled from the root of `src/js/` to `js/{filename}.js`
   - Javascript can be written using ES6, supporting `require()` and `import` statements from npm packages and local JS files
 - CSS files are compiled from the root of `src/css/` to `css/{filename}.css`
   - Import statements are resolved and included in the compiled CSS files
-- For compatibility with Forestry or other CMSs, ensure that compiled CSS and JS files in the `hugo/` folder are always committed
+- For compatibility with Forestry or other CMSs, ensure that compiled CSS and JS files in the `site/` folder are always committed
 - Environment variables are provided to your templates, which can be accessed in templates as follows: `{{ getenv "HUGO_ENV" }}`
   - For development pipelines, this is equal to `development`
   - For production pipelines, this is equal to `production`

@@ -10,7 +10,7 @@
     "preview": "static-scripts preview",
     "build": "static-scripts build",
     "clean": "gulp clean",
-    "hugo": "node_modules/.bin/hugo --source hugo/",
+    "hugo": "node_modules/.bin/hugo --source site/",
     "eslint": "./node_modules/eslint/bin/eslint.js src/js/ --ext .js",
     "eslint:fix": "./node_modules/eslint/bin/eslint.js src/js/ --ext .js --fix",
     "stylelint": "npm run stylelint:css && npm run stylelint:scss",

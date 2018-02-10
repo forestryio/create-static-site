@@ -4,7 +4,7 @@ const { resolve } = require("path")
 const hugo = require("hugo-bin")
 
 module.exports = function(env) {
-  const dest = "hugo/"
+  const dest = "site/"
   const build = "dist/"
 
   return {
@@ -16,7 +16,7 @@ module.exports = function(env) {
         default: [
           "-v",
           "--source",
-          resolve(dest),
+          resolve("site/"),
           "--destination",
           resolve(build),
         ],
