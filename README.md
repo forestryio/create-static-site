@@ -74,13 +74,6 @@ TODO
 
 Builds the site for production to the `dist` folder.<br>
 
-### `npm eject` or `yarn eject`
-
-
-## How to Update to New Versions?
-
-TODO:
-
 ## Philosophy
 
 * **One Dependency:** There is just one build dependency. It uses Webpack, Babel, ESLint, PostCSS, and other amazing projects, but provides a cohesive curated experience on top of them.
