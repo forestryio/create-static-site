@@ -4,6 +4,17 @@
 
 Create static websites with no build configuration.
 
+## Overview
+```
+npx create-static-site --template hugo
+cd my-site
+npm start
+```
+
+*([npx](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b) comes with npm 5.2+ and higher)*
+
+Then open [http://localhost:3000/](http://localhost:3000/) to see your app.<br>
+
 ## Creating a Static Site
 
 **You’ll need to have Node >= 6 on your local development machine**. You can use [nvm](https://github.com/creationix/nvm#installation) (macOS/Linux) or [nvm-windows](https://github.com/coreybutler/nvm-windows#node-version-manager-nvm-for-windows) to easily switch Node versions between different projects.
@@ -11,7 +22,7 @@ Create static websites with no build configuration.
 To create a new app, run:
 
 ```sh
-create-static-site --template [template] my-site
+npx create-static-site --template [template] my-site
 ```
 
 Replace `[template]` with either `hugo` or `jekyll`.
