@@ -97,6 +97,19 @@ Your environment will have everything you need to build a modern static website:
 
 The tradeoff is that **these tools are preconfigured to work in a specific way**. If your project needs more customization, you can "eject" and customize it, but then you will need to maintain this configuration.
 
+## Static Sites
+
+Static sites are websites built using static, unchanging files. Because the content is static, delivering it to users requires no server processing time. This feature makes static sites incredibly fast and performant.
+
+Static site generators are the modern way of building static sites. They convert simple, text-based content files in static files ready for the web.
+
+They’re fantastic for developers because they are extremely fast, are built to work with version-control, and require little-to-no setup compared to existing monolithic CMS solutions like Wordpress.
+
+Currently, `create-static-site` supports two static site generators:
+
+- [**Jekyll**](https://jekyllrb.com) is the static site generator written in Ruby and created by [GitHub](https://github.com) founder, Tom Preston Werner.
+- [**Hugo**](https://gohugo.io) is the static site generator written in GoLang and created by Steve Francia.
+
 ## Contributing
 
 We'd love to have your helping hand on `create-static-site`! See [CONTRIBUTING.md](CONTRIBUTING.md) for more information on what we're looking for and how to get started.
