@@ -13,26 +13,28 @@ module.exports = function(env) {
   config.tmp = config.tmp || ".tmp/"
   config.build = config.build || "dist/"
 
+  const { styles, scripts, images, svg, ...userConfig } = config
+
   config = {
     styles: {
       src: config.src + "css/*.css",
       watch: config.src + "css/**/*.css",
       dest: config.dest + "static/css",
       tmp: config.tmp + "css",
-      ...config.styles,
+      ...styles,
     },
     scripts: {
       src: config.src + "js/*+(js|jsx)",
       watch: config.src + "js/**/*+(js|jsx)",
       dest: config.dest + "static/js/",
       tmp: config.tmp + "js/",
-      ...config.scripts,
+      ...scripts,
     },
     images: {
       src: config.src + "img/**/*.+(png|jpg|jpeg|gif|svg|webp)",
       watch: config.src + "img/**/*.+(png|jpg|jpeg|gif|svg|webp)",
       dest: config.dest + "static/img/",
-      ...config.images,
+      ...images,
     },
     svg: {
       src: config.src + "img/**/*.svg",
@@ -49,9 +51,9 @@ module.exports = function(env) {
         },
         example: !isProduction,
       },
-      ...config.svg,
+      ...svg,
     },
-    ...config,
+    ...userConfig,
   }
 
   return config
