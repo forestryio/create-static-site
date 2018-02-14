@@ -1,6 +1,6 @@
 {
   "name": "create-static-site",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Create a Static Site zero build scripts!",
   "bin": {
     "create-static-site": "./index.js"
@@ -9,7 +9,12 @@
     "type": "git",
     "url": "git+https://github.com/forestryio/create-static-site.git"
   },
-  "keywords": ["jamstack", "hugo", "jekyll", "static"],
+  "keywords": [
+    "jamstack",
+    "hugo",
+    "jekyll",
+    "static"
+  ],
   "author": "Nolan Phillips <ncphillips.19@gmail.com>",
   "license": "MIT",
   "bugs": {

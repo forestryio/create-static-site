@@ -1,7 +1,6 @@
 {
   "name": "static-scripts",
-  "description":
-    "Develop, test, and build Static Websites with zero configuration.",
+  "description": "Develop, test, and build Static Websites with zero configuration.",
   "author": "Nolan Phillips <ncphillips.19@gmail.com>",
   "repository": "forestryio/create-static-site",
   "license": "MIT",
@@ -11,13 +10,13 @@
   "bugs": {
     "url": "https://github.com/forestryio/create-static-site/issues"
   },
-  "files": ["bin", "config", "scripts", "templates"],
-  "devDependencies": {},
-  "optionalDependencies": {},
-
+  "files": [
+    "bin",
+    "config",
+    "scripts",
+    "templates"
+  ],
   "dependencies": {
-    "chalk": "^2.3.0",
-    "react-dev-utils": "^5.0.0",
     "@babel/register": "^7.0.0-beta.39",
     "babel-eslint": "^6.1.2",
     "babel-loader": "^7.0.0",
@@ -28,6 +27,7 @@
     "babel-preset-env": "1.6.0",
     "babel-register": "^6.11.6",
     "browser-sync": "^2.13.0",
+    "chalk": "^2.3.0",
     "compression": "^1.7.1",
     "cross-env": "^5.1.1",
     "css-loader": "^0.28.2",
@@ -51,6 +51,7 @@
     "postcss-reporter": "^5.0.0",
     "postcss-scss": "^1.0.2",
     "precss": "^2.0.0",
+    "react-dev-utils": "^5.0.0",
     "run-sequence": "^2.2.0",
     "stylelint": "^8.2.0",
     "stylelint-config-sass-guidelines": "^4.0.1",
@@ -63,5 +64,5 @@
     "webpack-stream": "^4.0.0",
     "whatwg-fetch": "^1.0.0"
   },
-  "version": "0.0.0"
+  "version": "0.1.0"
 }
