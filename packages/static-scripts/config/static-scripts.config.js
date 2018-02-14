@@ -13,48 +13,62 @@ module.exports = function(env) {
   config.tmp = config.tmp || ".tmp/"
   config.build = config.build || "dist/"
 
-  const { styles, scripts, images, svg, ...userConfig } = config
+  const { styles, scripts, images, svg } = config
 
-  config = {
-    styles: {
-      src: config.src + "css/*.css",
-      watch: config.src + "css/**/*.css",
-      dest: config.dest + "static/css",
-      tmp: config.tmp + "css",
-      ...styles,
-    },
-    scripts: {
-      src: config.src + "js/*+(js|jsx)",
-      watch: config.src + "js/**/*+(js|jsx)",
-      dest: config.dest + "static/js/",
-      tmp: config.tmp + "js/",
-      ...scripts,
-    },
-    images: {
-      src: config.src + "img/**/*.+(png|jpg|jpeg|gif|svg|webp)",
-      watch: config.src + "img/**/*.+(png|jpg|jpeg|gif|svg|webp)",
-      dest: config.dest + "static/img/",
-      ...images,
-    },
-    svg: {
-      src: config.src + "img/**/*.svg",
-      watch: config.src + "img/**/*.svg",
-      dest: config.dest + "static/svg/",
-      config: {
-        dest: ".",
-        mode: {
-          symbol: {
-            sprite: "sprite.symbol.svg",
-            prefix: "svg-%s",
+  const userConfig = Object.assign({}, config)
+  delete userConfig.styles
+  delete userConfig.scripts
+  delete userConfig.images
+  delete userConfig.svg
+
+  return Object.assign(
+    {
+      styles: Object.assign(
+        {
+          src: config.src + "css/*.css",
+          watch: config.src + "css/**/*.css",
+          dest: config.dest + "static/css",
+          tmp: config.tmp + "css",
+        },
+        config.styles
+      ),
+      scripts: Object.assign(
+        {
+          src: config.src + "js/*+(js|jsx)",
+          watch: config.src + "js/**/*+(js|jsx)",
+          dest: config.dest + "static/js/",
+          tmp: config.tmp + "js/",
+        },
+        config.scripts
+      ),
+      images: Object.assign(
+        {
+          src: config.src + "img/**/*.+(png|jpg|jpeg|gif|svg|webp)",
+          watch: config.src + "img/**/*.+(png|jpg|jpeg|gif|svg|webp)",
+          dest: config.dest + "static/img/",
+        },
+        config.images
+      ),
+      svg: Object.assign(
+        {
+          src: config.src + "img/**/*.svg",
+          watch: config.src + "img/**/*.svg",
+          dest: config.dest + "static/svg/",
+          config: {
             dest: ".",
+            mode: {
+              symbol: {
+                sprite: "sprite.symbol.svg",
+                prefix: "svg-%s",
+                dest: ".",
+              },
+            },
+            example: !isProduction,
           },
         },
-        example: !isProduction,
-      },
-      ...svg,
+        config.svg
+      ),
     },
-    ...userConfig,
-  }
-
-  return config
+    userConfig
+  )
 }

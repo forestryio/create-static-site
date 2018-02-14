@@ -38,27 +38,32 @@ module.exports = function(
   appPackage.dependencies = appPackage.dependencies || {}
   appPackage.devDependencies = appPackage.devDependencies || {}
   if (templatePackage.dependencies) {
-    appPackage.dependencies = {
-      ...appPackage.dependencies,
-      ...templatePackage.dependencies,
-    }
+    appPackage.dependencies = Object.assign(
+      {},
+      appPackage.dependencies,
+      templatePackage.dependencie
+    )
   }
   if (templatePackage.devDependencies) {
-    appPackage.dependencies = {
-      ...appPackage.devDependencies,
-      ...templatePackage.devDependencies,
-    }
+    appPackage.dependencies = Object.assign(
+      {},
+      appPackage.devDependencies,
+      templatePackage.devDependencies
+    )
   }
 
   // // Setup the script rules
-  appPackage.scripts = {
-    ...appPackage.scripts,
-    ...templatePackage.dependencies,
-    start: "static-scripts start",
-    preview: "static-scripts preview",
-    build: "static-scripts build",
-    eject: "static-scripts eject",
-  }
+  appPackage.scripts = Object.assign(
+    {},
+    appPackage.scripts,
+    templatePackage.dependencies,
+    {
+      start: "static-scripts start",
+      preview: "static-scripts preview",
+      build: "static-scripts build",
+      eject: "static-scripts eject",
+    }
+  )
 
   // Copy the files for the user
 

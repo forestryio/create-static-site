@@ -35,10 +35,13 @@ module.exports = function(env) {
           loader: "babel-loader",
           test: /\.js$/,
           exclude: /node_modules/,
-          options: {
-            cacheDirectory: true,
-            ...babelConfig,
-          },
+          options: Object.assign(
+            {},
+            {
+              cacheDirectory: true,
+            },
+            babelConfig
+          ),
         },
       ],
     },
