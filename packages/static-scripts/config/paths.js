@@ -78,13 +78,12 @@ let paths = {
 const resolveOwn = relativePath => path.resolve(__dirname, "..", relativePath)
 
 // config before eject: we're in ./node_modules/react-scripts/config/
-paths = {
-  ...paths,
+paths = Object.assign({}, paths, {
   gulpConfig: resolveOwn("config/gulp.config.js"),
   // These properties only exist before ejecting:
   ownPath: resolveOwn("."),
   ownNodeModules: resolveOwn("node_modules"), // This is empty on npm 3
-}
+})
 
 // detect if template should be used, ie. when cwd is react-scripts itself
 const useTemplate = appDirectory === fs.realpathSync(path.join(__dirname, ".."))
