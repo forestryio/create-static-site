@@ -252,9 +252,10 @@ inquirer
     console.log(green("Ejected successfully!"))
     console.log()
 
-    // console.log(
-    //   green("Please consider sharing why you ejected in this survey:")
-    // )
-    // console.log(green("  http://goo.gl/forms/Bi6CZjk1EqsdelXk1"))
+    console.log(
+      green("Please consider sharing why you ejected in this survey:")
+    )
+    console.log()
+    console.log(green("  https://goo.gl/forms/s97g0WcUsV7Rboz22"))
     console.log()
   })
