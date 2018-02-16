@@ -20,7 +20,7 @@ func main() {
 //=> prints 'Hi, Tom' to STDOUT.
 {{< /highlight >}}
 
-Check out the [Hugo docs][hugo-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Hugo’s GitHub repo][hugo-gh]. If you have questions, you can ask them on [Hugo Community][hugo-community].
+Check out the [Hugo docs][hugo-docs] for more info on how to get the most out of Hugo. File all bugs/feature requests at [Hugo’s GitHub repo][hugo-gh]. If you have questions, you can ask them on [Hugo Community][hugo-community].
 
 [hugo-docs]: https://gohugo.io/documentation/
 [hugo-gh]:   https://github.com/gohugoio/hugo
