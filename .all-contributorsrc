@@ -1,0 +1,31 @@
+{
+  "projectName": "create-static-site",
+  "projectOwner": "forestryio",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "contributors": [
+    {
+      "login": "chrisdmacrae",
+      "name": "chrisdmacrae",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/6855186?v=4",
+      "profile": "https://github.com/chrisdmacrae",
+      "contributions": [
+        "question",
+        "code",
+        "design",
+        "doc",
+        "example",
+        "ideas",
+        "review",
+        "talk",
+        "tool",
+        "tutorial"
+      ]
+    }
+  ]
+}
