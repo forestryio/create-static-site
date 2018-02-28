@@ -23,6 +23,5 @@
   },
   "devDependencies": {
     "hugo-bin": "^0.18.0",
-    "gulp": "^3.9.1"
   }
 }

@@ -110,7 +110,7 @@ Currently, `create-static-site` supports two static site generators:
 
 - [**Jekyll**](https://jekyllrb.com) is the static site generator written in Ruby and created by [GitHub](https://github.com) founder, Tom Preston Werner.
 - [**Hugo**](https://gohugo.io) is the static site generator written in GoLang and created by Steve Francia.
-
+cd 
 ## Contributing
 
 We'd love to have your helping hand on `create-static-site`! See [CONTRIBUTING.md](CONTRIBUTING.md) for more information on what we're looking for and how to get started.

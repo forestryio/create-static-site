@@ -4,4 +4,4 @@
 
 # static-scripts
 
-Scripts to help develop, test, and build Static Sites.
+Scripts to help develop, test, and build static sites.

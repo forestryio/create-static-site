@@ -15,7 +15,7 @@ process.on("unhandledRejection", err => {
 })
 
 // SCRIPTS
-const AVAILABLE_SCRIPTS = ["start", "build", "preview", "eject"]
+const AVAILABLE_SCRIPTS = ["start", "build", "eject"]
 
 // CONSOLE OUTPUT MESSAGES
 const MESSAGES = {

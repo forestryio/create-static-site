@@ -1,48 +1,23 @@
-// Configures gulp build
-// See gulpfile.babel.js for build pipeline
-const { resolve } = require("path")
+/**
+ * Configuration file for create-static-site
+ * A zero configuration build tool for static sites
+ * https://github.com/forestryio/create-static-site/
+ */
+const {resolve} = require("path")
 
-module.exports = function(env) {
-  const dest = "site/"
-  const build = "dist/"
-  const isProduction = process.env.NODE_ENV === "production"
-
-  return {
-    generator: {
-      label: "Jekyll",
-      command: "bundle",
-      args: {
-        default: [
-          "exec",
-          "jekyll",
-          "build",
-          "--source",
-          resolve(dest),
-          "--destination",
-          resolve(build),
-        ],
-        development: [
-          "-V",
-          "--drafts",
-          "--unpublished",
-          "--future",
-          "--baseURL=/",
-        ],
-        preview: ["--baseURL=/"],
-        production: [],
-      },
+module.exports = () => ({
+    generator: "Jekyll",
+    command: "bundle exec jekyll",
+    proxy: false,
+    args: {
+        default: ["build", "--source", resolve(dest), "--destination", resolve(build)],
+        development: ["--verbose", "--drafts", "--unpublished", "--future","--baseURL=/"],
+        production: []
     },
-    styles: {
-      dest: dest + "css",
-    },
-    scripts: {
-      dest: dest + "js/",
-    },
-    images: {
-      dest: dest + "img/",
-    },
-    svg: {
-      dest: dest + "svg/",
-    },
-  }
-}
+    directories: {
+        src: "src/",
+        build: "dist/",
+        static: "dist/",
+        generator: "site/"
+    }
+})
