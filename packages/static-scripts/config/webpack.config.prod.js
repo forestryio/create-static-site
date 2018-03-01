@@ -7,9 +7,11 @@ const config = require("./static-scripts.config")()
 const getClientEnvironment = require("./env")
 const eslintFormatter = require("react-dev-utils/eslintFormatter")
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
+const glob = require('glob')
 const ModuleScopePlugin = require("react-dev-utils/ModuleScopePlugin")
 const path = require("path")
 const paths = require("./paths")
+const PurgecssPlugin = require('purgecss-webpack-plugin')
 const SWPrecacheWebpackPlugin = require("sw-precache-webpack-plugin")
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
 const WatchMissingNodeModulesPlugin = require("react-dev-utils/WatchMissingNodeModulesPlugin")
@@ -47,17 +49,12 @@ module.exports = {
   // We generate sourcemaps in production. This is slow but gives good results.
   // You can exclude the *.map files from the build during deployment.
   devtool: shouldUseSourceMap ? "source-map" : false,
-  entry: [
-    // These are the "entry points" to our application.
-    // This means they will be the "root" imports that are included in JS
-    // bundle(s)
-    //
-    // This is your app's code:
-    "./src/js",
-  ],
+  // These are the "entry points" to our application.
+  // This means they will be the "root" imports that are included in JS bundle.
+  entry: path.resolve(process.cwd(), config.scripts.src),
   output: {
     // Ensures we're outputting to the correct path
-    path: path.resolve(config.scripts.dest),
+    path: path.resolve(process.cwd(), config.scripts.dest),
     // Add /* filename */ comments to generated require()s in the output.
     pathinfo: true,
     // This is the JS bundle containing code from all our entry points,
@@ -69,42 +66,6 @@ module.exports = {
     // (format as URL on Windows)
     devtoolModuleFilenameTemplate: info =>
       path.resolve(info.absoluteResourcePath).replace(/\\/g, "/"),
-  },
-  resolve: {
-    // This allows you to set a fallback for where Webpack should look for modules.
-    // We placed these paths second because we want `node_modules` to "win"
-    // if there are any conflicts. This matches Node resolution mechanism.
-    // https://github.com/facebook/create-react-app/issues/253
-    modules: ["node_modules"].concat(
-      // It is guaranteed to exist because we tweak it in `env.js`
-      process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
-    ),
-    // These are the reasonable defaults supported by the Node ecosystem.
-    // We also include JSX as a common component filename extension to support
-    // some tools, although we do not recommend using it, see:
-    // https://github.com/facebook/create-react-app/issues/290
-    // `web` extension prefixes have been added for better support
-    // for React Native Web.
-    extensions: [".web.js", ".mjs", ".js", ".json", ".web.jsx", ".jsx"],
-    alias: {
-      // @remove-on-eject-begin
-      // Resolve Babel runtime relative to react-scripts.
-      // It usually still works on npm 3 without this but it would be
-      // unfortunate to rely on, as static-scripts could be symlinked,
-      // and thus @babel/runtime might not be resolvable from the source.
-      "@babel/runtime": path.dirname(
-        require.resolve("@babel/runtime/package.json")
-      ),
-      // @remove-on-eject-end
-    },
-    plugins: [
-      // Prevents users from importing files from outside of src/ (or node_modules/).
-      // This often causes confusion because we only process files within src/ with babel.
-      // To fix this, we prevent you from importing files out of src/ -- if you'd like to,
-      // please link the files into your node_modules/ and let module-resolution kick in.
-      // Make sure your source files are compiled, as they will not be processed in any way.
-      // new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
-    ],
   },
   module: {
     // Throw an error if an exported fxn is missing
@@ -338,6 +299,24 @@ module.exports = {
           ascii_only: true,
         },
       },
+      // Remove unused CSS from any bundled CSS
+      new PurgecssPlugin({
+        // Specify the locations of any files you want to scan for class names.
+        paths: glob.sync([
+          path.resolve(paths.appPath, config.directories.generator),
+          path.resolve(paths.appPath, config.directories.build)
+        ]),
+        extractors: [
+          {
+            extractor: function extract(content) {
+              return content.match(/[A-z0-9-:\/]+/g) || [];
+            },
+            // Specify the file extensions to include when scanning for
+            // class names.
+            extensions: ["html", "js", "php", "vue"]
+          }
+        ]
+      }),
       // Use multi-process parallel running to improve the build speed
       // Default number of concurrent runs: os.cpus().length - 1
       parallel: true,

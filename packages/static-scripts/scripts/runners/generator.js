@@ -21,6 +21,6 @@ const cmdAttrs = [config.command]
 const cmd = cmdAttrs.join(" ")
 
 module.exports = () => {
-    spawnWithLogging(cmd, config.generator)
+    return spawnWithLogging(cmd, config.generator)
 }
 

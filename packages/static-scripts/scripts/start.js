@@ -19,18 +19,33 @@ const webpack = require("./runners/webpack")
 // an extremely lightweight and efficient task executor
 const taskMgr = new Orchestrator();
 
-taskMgr.add("postcss", postcss.watch)
+taskMgr.add("postcss", (cb) => {
+    postcss.watch().on("close", () => cb())
+})
 
-taskMgr.add("webpack", webpack.watch)
+taskMgr.add("webpack",  (cb) => {
+    webpack.watch().on("close", () => cb())
+})
 
-taskMgr.add("imagemin", imagemin.watch)
+taskMgr.add("imagemin", (cb) => {
+    imagemin.watch().on("close", () => cb())
+})
 
-taskMgr.add("svgSprite", svgSprite.watch)
+taskMgr.add("svgSprite", (cb) => {
+    svgSprite.watch().on("close", () => cb())
+})
 
-taskMgr.add("browsersync", browsersync)
+taskMgr.add("browsersync", (cb) => {
+    browsersync.on("close", () => cb())
+})
 
-taskMgr.add("generator", ['postcss', 'webpack', 'imagemin', 'svgSprite', 'browsersync'], generator)
+taskMgr.add("generator", ['postcss', 'webpack', 'imagemin', 'svgSprite'], (cb) => {
+    generator().on("close", () => cb())
+})
 
 taskMgr.start('generator', (err) => {
     if (err) log(err, err.toString(), ["create-static-site"])
 })
+
+process.on('SIGINT', () => process.exit())
+process.on('SIGTERM', () => process.exit())

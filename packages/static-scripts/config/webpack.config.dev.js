@@ -43,18 +43,10 @@ module.exports = {
   devtool: 'cheap-module-source-map',
   // These are the "entry points" to our application.
   // This means they will be the "root" imports that are included in JS bundle.
-  // The first two entry points enable "hot" CSS and auto-refreshes for JS.
-  entry: [
-    // These are the "entry points" to our application.
-    // This means they will be the "root" imports that are included in JS 
-    // bundle(s)
-    //
-    // This is your app's code:
-    path.resolve(process.cwd(), config.scripts.src),
-  ],
+  entry: path.resolve(process.cwd(), config.scripts.src),
   output: {
     // Ensures we're outputting to the correct path
-    path: path.resolve(config.scripts.dest),
+    path: path.resolve(process.cwd(), config.scripts.dest),
     // Add /* filename */ comments to generated require()s in the output.
     pathinfo: true,
     // This is the JS bundle containing code from all our entry points, 
@@ -83,25 +75,6 @@ module.exports = {
     // `web` extension prefixes have been added for better support
     // for React Native Web.
     extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
-    alias: {
-      // @remove-on-eject-begin
-      // Resolve Babel runtime relative to react-scripts.
-      // It usually still works on npm 3 without this but it would be
-      // unfortunate to rely on, as static-scripts could be symlinked,
-      // and thus @babel/runtime might not be resolvable from the source.
-      '@babel/runtime': path.dirname(
-        require.resolve('@babel/runtime/package.json')
-      ),
-      // @remove-on-eject-end
-    },
-    plugins: [
-      // Prevents users from importing files from outside of src/ (or node_modules/).
-      // This often causes confusion because we only process files within src/ with babel.
-      // To fix this, we prevent you from importing files out of src/ -- if you'd like to,
-      // please link the files into your node_modules/ and let module-resolution kick in.
-      // Make sure your source files are compiled, as they will not be processed in any way.
-      new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
-    ],
   },
   module: {
     // Throw an error if an exported fxn is missing

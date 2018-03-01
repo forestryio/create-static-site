@@ -17,5 +17,5 @@ const cmdAttrs = [
 const cmd = cmdAttrs.join(" ")
 
 module.exports = () => {
-    spawnWithLogging(cmd, cmdLabel)
+    return spawnWithLogging(cmd, cmdLabel)
 }

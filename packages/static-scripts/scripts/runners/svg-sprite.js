@@ -1,7 +1,7 @@
 const chokidar = require("chokidar")
 const config = require("../../config/static-scripts.config")()
 const path = require("path")
-const svgSpriteConfig = require("../../config/svg-sprite.config")
+const svgSpriteConfig = path.resolve(__dirname, "../../config/svg-sprite.config.json")
 const spawnWithLogging = require("../utils/spawnLogging")
 
 const cmdLabel = "SVG Sprite"
@@ -12,7 +12,11 @@ const cmdAttrs = [
     // options(s)
     "-f", config.svg.src, "-o", config.svg.dest,
     // Arguments
-    "--config", JSON.stringify(svgSpriteConfig)
+    "--sprite",
+    "--sprite-dest", config.svg.dest,
+    "--symbol-prefix", "svg-%s",
+    "--symbol-example-dest", config.svg.dest,
+    "--verbose"
 ]
 
 const watchCmdAttrs = [
@@ -29,10 +33,10 @@ const cmd = cmdAttrs.join(" ")
 const watchCmd = watchCmdAttrs.join(" ")
 
 module.exports = () => {
-    spawnWithLogging(cmd, cmdLabel)
+    return spawnWithLogging(cmd, cmdLabel)
 }
 
 module.exports.watch = () => {
-    spawnWithLogging(watchCmd, cmdLabel)
+    return spawnWithLogging(watchCmd, cmdLabel)
 }
 

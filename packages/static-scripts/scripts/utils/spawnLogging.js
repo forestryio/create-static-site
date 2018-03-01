@@ -28,11 +28,11 @@ module.exports = (cmd, label, browsersync) => {
     })
 
     process.on('SIGINT', () => {
-        spawnedCmd.exit()
+        spawnedCmd.kill()
     })
     
     process.on('SIGTERM', () => {
-        spawnedCmd.exit()
+        spawnedCmd.kill()
     })
 
     return spawnedCmd

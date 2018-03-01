@@ -6,11 +6,12 @@ const cmdLabel = "ImageMin"
 
 const cmdAttrs = [
     // Command
-    "$(npm bin)/imagemin",
-    // option(s)
+    "$(npm bin)/imagemin-power",
     config.images.src,
+    // option(s)
+    "-rv",
+    "-o", config.images.dest
     // Arguments
-    "--out-dir", config.images.dest
 ]
 
 const watchCmdAttrs = [
@@ -29,10 +30,10 @@ const cmd = cmdAttrs.join(" ")
 const watchCmd = watchCmdAttrs.join(" ")
 
 module.exports = () => {
-    spawnWithLogging(cmd, cmdLabel)
+    return spawnWithLogging(cmd, cmdLabel)
 }
 
 module.exports.watch = () => {
-    spawnWithLogging(watchCmd, cmdLabel)
+    return spawnWithLogging(watchCmd, cmdLabel)
 }
 

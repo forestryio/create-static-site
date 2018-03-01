@@ -22,6 +22,6 @@
       "./node_modules/stylelint/bin/stylelint.js src/scss/**/*.scss"
   },
   "devDependencies": {
-    "hugo-bin": "^0.18.0",
+    "hugo-bin": "^0.18.0"
   }
 }

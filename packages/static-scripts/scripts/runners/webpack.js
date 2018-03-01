@@ -11,7 +11,9 @@ const cmdAttrs = [
     // The command
     "$(npm bin)/webpack",
     // Arguments
-    "--config", webpackConfig
+    "--config", webpackConfig,
+    "--mode", process.env.NODE_ENV,
+    "--display-error-details"
 ]
 
 const watchCmdAttrs = cmdAttrs.concat([
@@ -22,9 +24,9 @@ const cmd = cmdAttrs.join(" ")
 const watchCmd = watchCmdAttrs.join(" ")
 
 module.exports = () => {
-    spawnWithLogging(cmd, cmdLabel)
+    return spawnWithLogging(cmd, cmdLabel)
 }
 
 module.exports.watch = () => {
-    spawnWithLogging(watchCmd, cmdLabel)
+    return spawnWithLogging(watchCmd, cmdLabel)
 }

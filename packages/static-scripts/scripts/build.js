@@ -8,7 +8,8 @@ process.env.NODE_ENV = process.env.NODE_ENV
 
 const imagemin = require("./runners/imagemin")
 const log = require("./utils/log")
-const postcss = require("./runners/postcss")
+const postCss = require("./runners/postcss")
+const purgeCss = require("./runners/purgecss")
 const generator = require("./runners/generator")
 const Orchestrator = require("orchestrator")
 const svgSprite = require("./runners/svg-sprite")
@@ -18,16 +19,33 @@ const webpack = require("./runners/webpack")
 // an extremely lightweight and efficient task executor
 const taskMgr = new Orchestrator();
 
-taskMgr.add("postcss", postcss)
+taskMgr.add("postCss", (cb) => {
+    postCss().on("close", () => cb())
+})
 
-taskMgr.add("webpack", webpack)
+taskMgr.add("webpack",  (cb) => {
+    webpack().on("close", () => cb())
+})
 
-taskMgr.add("imagemin", imagemin)
+taskMgr.add("imagemin", (cb) => {
+    imagemin().on("close", () => cb())
+})
 
-taskMgr.add("svgSprite", svgSprite)
+taskMgr.add("svgSprite", (cb) => {
+    svgSprite().on("close", () => cb())
+})
 
-taskMgr.add("generator", ['postcss', 'webpack', 'imagemin', 'svgSprite'], generator)
+taskMgr.add("generator", ['postCss', 'webpack', 'imagemin', 'svgSprite'], (cb) => {
+    generator().on("close", () => cb())
+})
 
-taskMgr.start('generator', (err) => {
+taskMgr.add("purgeCss", ['postCss'], (cb) => {
+    purgeCss().on("close", () => cb())
+})
+
+taskMgr.start('purgeCss', (err) => {
     if (err) log(err, err.toString(), ["create-static-site"])
 })
+
+process.on('SIGINT', () => process.exit())
+process.on('SIGTERM', () => process.exit())

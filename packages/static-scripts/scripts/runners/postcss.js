@@ -23,10 +23,10 @@ const cmd = cmdAttrs.join(" ")
 const watchCmd = watchCmdAttrs.join(" ")
 
 module.exports = () => {
-    spawnWithLogging(cmd, cmdLabel)
+    return spawnWithLogging(cmd, cmdLabel)
 }
 
 module.exports.watch = () => {
-    spawnWithLogging(watchCmd, cmdLabel)
+    return spawnWithLogging(watchCmd, cmdLabel)
 }
 
