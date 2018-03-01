@@ -32,8 +32,8 @@ module.exports = {
     proxy: false,
     args: {
         default: ["--verbose", "--source", resolve("site/"), "--destination", resolve("dist/")],
-        develop: ["--baseDir", "http://localhost:3000", "--buildDrafts", "--buildFuture", "--buildExpired"]
-        build: [],
+        development: ["--baseDir", "http://localhost:3000", "--buildDrafts", "--buildFuture", "--buildExpired"]
+        production: [],
         custom: ["--incremental"]
     },
     directories: {
