@@ -6,7 +6,7 @@ Create static websites with no build configuration.
 
 ## Overview
 ```
-npx create-static-site --template hugo
+npx create-static-site my-site --template hugo
 cd my-site
 npm start
 ```
@@ -22,7 +22,7 @@ Then open [http://localhost:3000/](http://localhost:3000/) to see your app.<br>
 To create a new app, run:
 
 ```sh
-npx create-static-site --template [template] my-site
+npx create-static-site my-site --template [template]
 ```
 
 Replace `[template]` with either `hugo` or `jekyll`.
