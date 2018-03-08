@@ -57,6 +57,17 @@
         "doc",
         "ideas"
       ]
+    },
+    {
+      "login": "scottgallant",
+      "name": "Scott Gallant",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/776019?v=4",
+      "profile": "http://forestry.io",
+      "contributions": [
+        "bug",
+        "doc",
+        "ideas"
+      ]
     }
   ]
 }
