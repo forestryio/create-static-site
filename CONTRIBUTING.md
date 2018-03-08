@@ -65,3 +65,18 @@ cd my-app
 8. After publishing, create a GitHub Release with the same text as the changelog entry. See previous Releases for inspiration.
 
 Make sure to test the released version! If you want to be extra careful, you can publish a prerelease by running `npm run publish -- --tag next` instead of `npm run publish`.
+
+## Adding Yourself to Contributors
+This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome.
+
+The following convenience scripts are available:
+
+- `npm run contributors:check`: see if there's any contributors who haven't added themselves to the project
+- `npm run contributors:add <github_username> <contribution_types...>`: add a contributor and specify how they have contributed. [See the key](https://github.com/kentcdodds/all-contributors#emoji-key) for contribution types.
+- `npm run contributors:generate`: automatically update the table in [`README.md`](/README.md)
+
+For example, to add yourself (if your username was @forestryio) simply run:
+
+```
+npm run contributors:add forestryio code,documentation,examples 
+```

@@ -1,4 +1,5 @@
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors)
 
 # Create Static Site
 
@@ -114,6 +115,17 @@ Currently, `create-static-site` supports two static site generators:
 
 We'd love to have your helping hand on `create-static-site`! See [CONTRIBUTING.md](CONTRIBUTING.md) for more information on what we're looking for and how to get started.
 
+## Contributors
+
+Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+| [<img src="https://avatars2.githubusercontent.com/u/6855186?v=4" width="100px;"/><br /><sub><b>chrisdmacrae</b></sub>](https://github.com/chrisdmacrae)<br />[💬](#question-chrisdmacrae "Answering Questions") [💻](https://github.com/forestryio/create-static-site/commits?author=chrisdmacrae "Code") [🎨](#design-chrisdmacrae "Design") [📖](https://github.com/forestryio/create-static-site/commits?author=chrisdmacrae "Documentation") [💡](#example-chrisdmacrae "Examples") [🤔](#ideas-chrisdmacrae "Ideas, Planning, & Feedback") [👀](#review-chrisdmacrae "Reviewed Pull Requests") [📢](#talk-chrisdmacrae "Talks") [🔧](#tool-chrisdmacrae "Tools") [✅](#tutorial-chrisdmacrae "Tutorials") | [<img src="https://avatars2.githubusercontent.com/u/824015?v=4" width="100px;"/><br /><sub><b>NCPhillips</b></sub>](https://github.com/ncphillips)<br />[💬](#question-ncphillips "Answering Questions") [🐛](https://github.com/forestryio/create-static-site/issues?q=author%3Ancphillips "Bug reports") [💻](https://github.com/forestryio/create-static-site/commits?author=ncphillips "Code") [📖](https://github.com/forestryio/create-static-site/commits?author=ncphillips "Documentation") [💡](#example-ncphillips "Examples") [🤔](#ideas-ncphillips "Ideas, Planning, & Feedback") [🚇](#infra-ncphillips "Infrastructure (Hosting, Build-Tools, etc)") [👀](#review-ncphillips "Reviewed Pull Requests") [📢](#talk-ncphillips "Talks") [⚠️](https://github.com/forestryio/create-static-site/commits?author=ncphillips "Tests") [🔧](#tool-ncphillips "Tools") |
+| :---: | :---: |
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
 
 ## Acknowledgements
 
