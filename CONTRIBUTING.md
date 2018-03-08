@@ -78,5 +78,5 @@ The following convenience scripts are available:
 For example, to add yourself (if your username was @forestryio) simply run:
 
 ```
-npm run contributors:add forestryio code,documentation,examples 
+npm run contributors:add forestryio code,doc,bug,examples 
 ```
