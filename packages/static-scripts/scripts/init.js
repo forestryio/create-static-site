@@ -139,7 +139,7 @@ module.exports = function(
   // Install react and react-dom for backward compatibility with old CRA cli
   // which doesn't install react and react-dom along with react-scripts
   // or template is presetend (via --internal-testing-template)
-  if (template) {
+  if (template && args.length > 1) {
     console.log(`Installing dependencies using ${command}...`)
     console.log()
 
@@ -184,7 +184,7 @@ module.exports = function(
   console.log("We suggest that you begin by typing:")
   console.log()
   console.log(chalk.cyan("  cd"), cdpath)
-  console.log(`  ${chalk.cyan(`${displayedCommand} build`)}`)
+  console.log(chalk.cyan(`  ${displayedCommand} ${useYarn ? "" : "run "}start`))
   if (readmeExists) {
     console.log()
     console.log(
