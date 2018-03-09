@@ -29,7 +29,7 @@
     },
     {
       "login": "ncphillips",
-      "name": "NCPhillips",
+      "name": "ncphillips",
       "avatar_url": "https://avatars2.githubusercontent.com/u/824015?v=4",
       "profile": "https://github.com/ncphillips",
       "contributions": [
@@ -44,6 +44,28 @@
         "talk",
         "test",
         "tool"
+      ]
+    },
+    {
+      "login": "zivbk1",
+      "name": "Bryan Klein",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/6154767?v=4",
+      "profile": "http://bryanklein.com",
+      "contributions": [
+        "bug",
+        "doc",
+        "ideas"
+      ]
+    },
+    {
+      "login": "scottgallant",
+      "name": "Scott Gallant",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/776019?v=4",
+      "profile": "http://forestry.io",
+      "contributions": [
+        "bug",
+        "doc",
+        "ideas"
       ]
     }
   ]
