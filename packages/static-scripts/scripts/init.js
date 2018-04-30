@@ -26,151 +26,166 @@ module.exports = function(
   originalDirectory,
   template
 ) {
-  const ownPackageName = require(path.join(__dirname, "..", "package.json"))
-    .name
-  const ownPath = path.join(appPath, "node_modules", ownPackageName)
-  const templatePath = path.join(ownPath, "templates", template)
-  const templatePackage = require(path.join(templatePath, "package.json"))
-  const appPackage = require(path.join(appPath, "package.json"))
-  const useYarn = fs.existsSync(path.join(appPath, "yarn.lock"))
+  try {
+    const ownPackageName = require(path.join(__dirname, "..", "package.json"))
+      .name
+    const ownPath = path.join(appPath, "node_modules", ownPackageName)
+    const templatePath = path.join(ownPath, "templates", template)
+    const templatePackage = require(path.join(templatePath, "package.json"))
+    const appPackage = require(path.join(appPath, "package.json"))
+    const useYarn = fs.existsSync(path.join(appPath, "yarn.lock"))
 
-  // // Copy over some of the devDependencies
-  appPackage.dependencies = appPackage.dependencies || {}
-  appPackage.devDependencies = appPackage.devDependencies || {}
-  if (templatePackage.dependencies) {
-    appPackage.dependencies = Object.assign(
-      {},
-      appPackage.dependencies,
-      templatePackage.dependencie
-    )
-  }
-  if (templatePackage.devDependencies) {
-    appPackage.dependencies = Object.assign(
-      {},
-      appPackage.devDependencies,
-      templatePackage.devDependencies
-    )
-  }
-
-  // // Setup the script rules
-  appPackage.scripts = Object.assign(
-    {},
-    appPackage.scripts,
-    templatePackage.dependencies,
-    {
-      start: "static-scripts start",
-      preview: "static-scripts preview",
-      build: "static-scripts build",
-      eject: "static-scripts eject",
+    // // Copy over some of the devDependencies
+    appPackage.dependencies = appPackage.dependencies || {}
+    appPackage.devDependencies = appPackage.devDependencies || {}
+    if (templatePackage.dependencies) {
+      appPackage.dependencies = Object.assign(
+        {},
+        appPackage.dependencies,
+        templatePackage.dependencie
+      )
     }
-  )
+    if (templatePackage.devDependencies) {
+      appPackage.dependencies = Object.assign(
+        {},
+        appPackage.devDependencies,
+        templatePackage.devDependencies
+      )
+    }
 
-  // Copy the files for the user
-
-  if (fs.existsSync(templatePath)) {
-    fs.copySync(templatePath, appPath)
-  } else {
-    console.error(
-      `Could not locate supplied template: ${chalk.green(templatePath)}`
+    // // Setup the script rules
+    appPackage.scripts = Object.assign(
+      {},
+      appPackage.scripts,
+      templatePackage.dependencies,
+      {
+        start: "static-scripts start",
+        preview: "static-scripts preview",
+        build: "static-scripts build",
+        eject: "static-scripts eject",
+      }
     )
-    return
-  }
 
-  writeAppPackage(appPath, appPackage)
-  const readmeExists = renameExistingReadme(appPath)
-  setupGitIgnore(appPath)
+    copyTemplateToApp(templatePath, appPath)
+    writeAppPackage(appPath, appPackage)
+    const readmeExists = renameExistingReadme(appPath)
+    setupGitIgnore(appPath)
 
-  let command
-  let args
+    let command
+    let args
 
-  if (useYarn) {
-    command = "yarnpkg"
-    args = ["add"]
-  } else {
-    command = "npm"
-    args = ["install", "--save", verbose && "--verbose"].filter(e => e)
-  }
-  // args.push("typescript") // TODO: Other deps
+    if (useYarn) {
+      command = "yarnpkg"
+      args = ["add"]
+    } else {
+      command = "npm"
+      args = ["install", "--save", verbose && "--verbose"].filter(e => e)
+    }
+    // args.push("typescript") // TODO: Other deps
 
-  // Install additional template dependencies, if present
-  const templateDependenciesPath = path.join(
-    appPath,
-    ".template.dependencies.json"
-  )
-  if (fs.existsSync(templateDependenciesPath)) {
-    const templateDependencies = require(templateDependenciesPath).dependencies
-    args = args.concat(
-      Object.keys(templateDependencies).map(key => {
-        return `${key}@${templateDependencies[key]}`
-      })
+    // Install additional template dependencies, if present
+    const templateDependenciesPath = path.join(
+      appPath,
+      ".template.dependencies.json"
     )
-    fs.unlinkSync(templateDependenciesPath)
-  }
+    if (fs.existsSync(templateDependenciesPath)) {
+      const templateDependencies = require(templateDependenciesPath)
+        .dependencies
+      args = args.concat(
+        Object.keys(templateDependencies).map(key => {
+          return `${key}@${templateDependencies[key]}`
+        })
+      )
+      fs.unlinkSync(templateDependenciesPath)
+    }
 
-  // Install react and react-dom for backward compatibility with old CRA cli
-  // which doesn't install react and react-dom along with react-scripts
-  // or template is presetend (via --internal-testing-template)
-  if (template && args.length > 1) {
-    console.log(`Installing dependencies using ${command}...`)
+    // Install react and react-dom for backward compatibility with old CRA cli
+    // which doesn't install react and react-dom along with react-scripts
+    // or template is presetend (via --internal-testing-template)
+    if (template && args.length > 1) {
+      console.log(`Installing dependencies using ${command}...`)
+      console.log()
+
+      const proc = spawn.sync(command, args, { stdio: "inherit" })
+      if (proc.status !== 0) {
+        console.error(`\`${command} ${args.join(" ")}\` failed`)
+        return
+      }
+    }
+
+    // Display the most elegant way to cd.
+    // This needs to handle an undefined originalDirectory for
+    // backward compatibility with old global-cli's.
+    let cdpath
+    if (
+      originalDirectory &&
+      path.join(originalDirectory, appName) === appPath
+    ) {
+      cdpath = appName
+    } else {
+      cdpath = appPath
+    }
+
+    // Change displayed command to yarn instead of yarnpkg
+    const displayedCommand = useYarn ? "yarn" : "npm"
+
     console.log()
-
-    const proc = spawn.sync(command, args, { stdio: "inherit" })
-    if (proc.status !== 0) {
-      console.error(`\`${command} ${args.join(" ")}\` failed`)
-      return
-    }
-  }
-
-  // Display the most elegant way to cd.
-  // This needs to handle an undefined originalDirectory for
-  // backward compatibility with old global-cli's.
-  let cdpath
-  if (originalDirectory && path.join(originalDirectory, appName) === appPath) {
-    cdpath = appName
-  } else {
-    cdpath = appPath
-  }
-
-  // Change displayed command to yarn instead of yarnpkg
-  const displayedCommand = useYarn ? "yarn" : "npm"
-
-  console.log()
-  console.log(`Success! Created ${appName} at ${appPath}`)
-  console.log("Inside that directory, you can run several commands:")
-  console.log()
-  console.log(chalk.cyan(`  ${displayedCommand} ${useYarn ? "" : "run "}start`))
-  console.log(
-    "    Starts a local server so you can develop your site with ease."
-  )
-  console.log()
-  console.log(chalk.cyan(`  ${displayedCommand} ${useYarn ? "" : "run "}build`))
-  console.log("    Bundles the app into static files for production.")
-  console.log()
-  console.log(chalk.cyan(`  ${displayedCommand} ${useYarn ? "" : "run "}eject`))
-  console.log(
-    "    Removes this tool and copies build dependencies, configuration files"
-  )
-  console.log(
-    "    and scripts into the app directory. If you do this, you can’t go back!"
-  )
-  console.log()
-  console.log(chalk.cyan(`  ${displayedCommand} test`))
-  console.log("    COMING SOON: Starts the test runner.")
-  console.log()
-  console.log("We suggest that you begin by typing:")
-  console.log()
-  console.log(chalk.cyan("  cd"), cdpath)
-  console.log(chalk.cyan(`  ${displayedCommand} ${useYarn ? "" : "run "}start`))
-  if (readmeExists) {
+    console.log(`Success! Created ${appName} at ${appPath}`)
+    console.log("Inside that directory, you can run several commands:")
     console.log()
     console.log(
-      chalk.yellow(
-        "You had a `README.md` file, we renamed it to `README.old.md`"
+      chalk.cyan(`  ${displayedCommand} ${useYarn ? "" : "run "}start`)
+    )
+    console.log(
+      "    Starts a local server so you can develop your site with ease."
+    )
+    console.log()
+    console.log(
+      chalk.cyan(`  ${displayedCommand} ${useYarn ? "" : "run "}build`)
+    )
+    console.log("    Bundles the app into static files for production.")
+    console.log()
+    console.log(
+      chalk.cyan(`  ${displayedCommand} ${useYarn ? "" : "run "}eject`)
+    )
+    console.log(
+      "    Removes this tool and copies build dependencies, configuration files"
+    )
+    console.log(
+      "    and scripts into the app directory. If you do this, you can’t go back!"
+    )
+    console.log()
+    console.log(chalk.cyan(`  ${displayedCommand} test`))
+    console.log("    COMING SOON: Starts the test runner.")
+    console.log()
+    console.log("We suggest that you begin by typing:")
+    console.log()
+    console.log(chalk.cyan("  cd"), cdpath)
+    console.log(
+      chalk.cyan(`  ${displayedCommand} ${useYarn ? "" : "run "}start`)
+    )
+    if (readmeExists) {
+      console.log()
+      console.log(
+        chalk.yellow(
+          "You had a `README.md` file, we renamed it to `README.old.md`"
+        )
       )
+    }
+    console.log()
+    console.log("Happy hacking!")
+  } catch (e) {
+    console.error(e.message)
+  }
+}
+
+function copyTemplateToApp(templatePath, appPath) {
+  if (!fs.existsSync(templatePath)) {
+    throw new Error(
+      `Could not locate supplied template: ${chalk.green(templatePath)}`
     )
   }
-  console.log()
-  console.log("Happy hacking!")
+  fs.copySync(templatePath, appPath)
 }
 
 function writeAppPackage(appPath, appPackage) {
