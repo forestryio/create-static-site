@@ -53,19 +53,7 @@ module.exports = function(
       )
     }
 
-    // // Setup the script rules
-    appPackage.scripts = Object.assign(
-      {},
-      appPackage.scripts,
-      templatePackage.dependencies,
-      {
-        start: "static-scripts start",
-        preview: "static-scripts preview",
-        build: "static-scripts build",
-        eject: "static-scripts eject",
-      }
-    )
-
+    appPackage = addStaticScriptsToPackage(appPackage)
     copyTemplateToApp(templatePath, appPath)
     writeAppPackage(appPath, appPackage)
     const readmeExists = renameExistingReadme(appPath)
@@ -177,6 +165,18 @@ module.exports = function(
   } catch (e) {
     console.error(e.message)
   }
+}
+
+function addStaticScriptsToPackage(appPackage) {
+  // // Setup the script rules
+  appPackage.scripts = Object.assign({}, appPackage.scripts, {
+    start: "static-scripts start",
+    preview: "static-scripts preview",
+    build: "static-scripts build",
+    eject: "static-scripts eject",
+  })
+
+  return appPackage
 }
 
 function copyTemplateToApp(templatePath, appPath) {
