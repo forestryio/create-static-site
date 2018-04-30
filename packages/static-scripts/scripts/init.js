@@ -30,14 +30,13 @@ module.exports = function(
     const ownPackageName = require(path.join(__dirname, "..", "package.json"))
       .name
     const ownPath = path.join(appPath, "node_modules", ownPackageName)
-    const templatePath = path.join(ownPath, "templates", template)
-    const templatePackage = require(path.join(templatePath, "package.json"))
     const useYarn = fs.existsSync(path.join(appPath, "yarn.lock"))
+    const templatePath = path.join(ownPath, "templates", template)
 
-    const appPackage = generateAppPackage(appPath, templatePackage)
+    const appPackage = generateAppPackage(appPath, templatePath)
+    const readmeExists = renameExistingReadme(appPath)
     copyTemplateToApp(templatePath, appPath)
     writeAppPackage(appPath, appPackage)
-    const readmeExists = renameExistingReadme(appPath)
     setupGitIgnore(appPath)
 
     let command
@@ -148,7 +147,8 @@ module.exports = function(
   }
 }
 
-function generateAppPackage(appPath, templatePackage) {
+function generateAppPackage(appPath, templatePath) {
+  const templatePackage = require(path.join(templatePath, "package.json"))
   const appPackage = require(path.join(appPath, "package.json"))
   appPackage = addTemplateDepsToPackage(templatePackage, appPackage)
   appPackage = addStaticScriptsToPackage(appPackage)
