@@ -31,9 +31,10 @@ module.exports = function(
     const useYarn = getUseYarn(appPath)
     const templatePath = getTemplatePath(ownPath, template)
     const appPackage = generateAppPackage(appPath, templatePath)
-
     const readmeExists = renameExistingReadme(appPath)
+
     copyTemplateToApp(templatePath, appPath)
+
     writeAppPackage(appPath, appPackage)
     setupGitIgnore(appPath)
     installTemplateDeps(appPath, useYarn)
