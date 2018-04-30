@@ -76,11 +76,7 @@ module.exports = function(
     return
   }
 
-  fs.writeFileSync(
-    path.join(appPath, "package.json"),
-    JSON.stringify(appPackage, null, 2)
-  )
-
+  writeAppPackage(appPath, appPackage)
   const readmeExists = renameExistingReadme(appPath)
   setupGitIgnore(appPath)
 
@@ -177,11 +173,20 @@ module.exports = function(
   console.log("Happy hacking!")
 }
 
+function writeAppPackage(appPath, appPackage) {
+  fs.writeFileSync(
+    path.join(appPath, "package.json"),
+    JSON.stringify(appPackage, null, 2)
+  )
+}
 
 function renameExistingReadme(appPath) {
   const readmeExists = fs.existsSync(path.join(appPath, "README.md"))
   if (readmeExists) {
-    fs.renameSync(path.join(appPath, "README.md"), path.join(appPath, "README.old.md"))
+    fs.renameSync(
+      path.join(appPath, "README.md"),
+      path.join(appPath, "README.old.md")
+    )
   }
   return readmeExists
 }
@@ -209,4 +214,3 @@ function setupGitIgnore(appPath) {
     }
   )
 }
-
