@@ -32,11 +32,9 @@ module.exports = function(
     const ownPath = path.join(appPath, "node_modules", ownPackageName)
     const templatePath = path.join(ownPath, "templates", template)
     const templatePackage = require(path.join(templatePath, "package.json"))
-    const appPackage = require(path.join(appPath, "package.json"))
     const useYarn = fs.existsSync(path.join(appPath, "yarn.lock"))
 
-    appPackage = addTemplateDepsToPackage(templatePackage, appPackage)
-    appPackage = addStaticScriptsToPackage(appPackage)
+    const appPackage = generateAppPackage(appPath, templatePackage)
     copyTemplateToApp(templatePath, appPath)
     writeAppPackage(appPath, appPackage)
     const readmeExists = renameExistingReadme(appPath)
@@ -148,6 +146,13 @@ module.exports = function(
   } catch (e) {
     console.error(e.message)
   }
+}
+
+function generateAppPackage(appPath, templatePackage) {
+  const appPackage = require(path.join(appPath, "package.json"))
+  appPackage = addTemplateDepsToPackage(templatePackage, appPackage)
+  appPackage = addStaticScriptsToPackage(appPackage)
+  return appPackage
 }
 
 function addTemplateDepsToPackage(templatePackage, appPackage) {
