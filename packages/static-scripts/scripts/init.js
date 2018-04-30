@@ -81,14 +81,7 @@ module.exports = function(
     JSON.stringify(appPackage, null, 2)
   )
 
-  const readmeExists = fs.existsSync(path.join(appPath, "README.md"))
-  if (readmeExists) {
-    fs.renameSync(
-      path.join(appPath, "README.md"),
-      path.join(appPath, "README.old.md")
-    )
-  }
-
+  const readmeExists = renameExistingReadme(appPath)
   setupGitIgnore(appPath)
 
   let command
@@ -184,6 +177,15 @@ module.exports = function(
   console.log("Happy hacking!")
 }
 
+
+function renameExistingReadme(appPath) {
+  const readmeExists = fs.existsSync(path.join(appPath, "README.md"))
+  if (readmeExists) {
+    fs.renameSync(path.join(appPath, "README.md"), path.join(appPath, "README.old.md"))
+  }
+  return readmeExists
+}
+
 /**
  * Rename gitignore after the fact to prevent npm from renaming it to .npmignore
  * See: https://github.com/npm/npm/issues/1862
@@ -207,3 +209,4 @@ function setupGitIgnore(appPath) {
     }
   )
 }
+
