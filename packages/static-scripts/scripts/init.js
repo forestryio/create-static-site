@@ -35,24 +35,7 @@ module.exports = function(
     const appPackage = require(path.join(appPath, "package.json"))
     const useYarn = fs.existsSync(path.join(appPath, "yarn.lock"))
 
-    // // Copy over some of the devDependencies
-    appPackage.dependencies = appPackage.dependencies || {}
-    appPackage.devDependencies = appPackage.devDependencies || {}
-    if (templatePackage.dependencies) {
-      appPackage.dependencies = Object.assign(
-        {},
-        appPackage.dependencies,
-        templatePackage.dependencie
-      )
-    }
-    if (templatePackage.devDependencies) {
-      appPackage.dependencies = Object.assign(
-        {},
-        appPackage.devDependencies,
-        templatePackage.devDependencies
-      )
-    }
-
+    appPackage = addTemplateDepsToPackage(templatePackage, appPackage)
     appPackage = addStaticScriptsToPackage(appPackage)
     copyTemplateToApp(templatePath, appPath)
     writeAppPackage(appPath, appPackage)
@@ -165,6 +148,30 @@ module.exports = function(
   } catch (e) {
     console.error(e.message)
   }
+}
+
+function addTemplateDepsToPackage(templatePackage, appPackage) {
+  // // Copy over some of the devDependencies
+  appPackage.dependencies = appPackage.dependencies || {}
+  appPackage.devDependencies = appPackage.devDependencies || {}
+
+  if (templatePackage.dependencies) {
+    appPackage.dependencies = Object.assign(
+      {},
+      appPackage.dependencies,
+      templatePackage.dependencie
+    )
+  }
+
+  if (templatePackage.devDependencies) {
+    appPackage.dependencies = Object.assign(
+      {},
+      appPackage.devDependencies,
+      templatePackage.devDependencies
+    )
+  }
+
+  return appPackage
 }
 
 function addStaticScriptsToPackage(appPackage) {
