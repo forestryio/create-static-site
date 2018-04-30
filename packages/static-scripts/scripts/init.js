@@ -27,13 +27,11 @@ module.exports = function(
   template
 ) {
   try {
-    const ownPackageName = require(path.join(__dirname, "..", "package.json"))
-      .name
-    const ownPath = path.join(appPath, "node_modules", ownPackageName)
-    const useYarn = fs.existsSync(path.join(appPath, "yarn.lock"))
-    const templatePath = path.join(ownPath, "templates", template)
-
+    const ownPath = getOwnPath(appPath)
+    const useYarn = getUseYarn(appPath)
+    const templatePath = getTemplatePath(ownPath, template)
     const appPackage = generateAppPackage(appPath, templatePath)
+
     const readmeExists = renameExistingReadme(appPath)
     copyTemplateToApp(templatePath, appPath)
     writeAppPackage(appPath, appPackage)
@@ -49,6 +47,21 @@ module.exports = function(
   } catch (e) {
     console.error(e.message)
   }
+}
+
+function getOwnPath(appPath) {
+  const ownPackageName = require(path.join(__dirname, "..", "package.json"))
+    .name
+  const ownPath = path.join(appPath, "node_modules", ownPackageName)
+  return ownPath
+}
+
+function getUseYarn(appPath) {
+  return fs.existsSync(path.join(appPath, "yarn.lock"))
+}
+
+function getTemplatePath(ownPath, template) {
+  return path.join(ownPath, "templates", template)
 }
 
 function generateAppPackage(appPath, templatePath) {
