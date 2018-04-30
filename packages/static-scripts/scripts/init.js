@@ -38,47 +38,7 @@ module.exports = function(
     copyTemplateToApp(templatePath, appPath)
     writeAppPackage(appPath, appPackage)
     setupGitIgnore(appPath)
-
-    let command
-    let args
-
-    if (useYarn) {
-      command = "yarnpkg"
-      args = ["add"]
-    } else {
-      command = "npm"
-      args = ["install", "--save", verbose && "--verbose"].filter(e => e)
-    }
-    // args.push("typescript") // TODO: Other deps
-
-    // Install additional template dependencies, if present
-    const templateDependenciesPath = path.join(
-      appPath,
-      ".template.dependencies.json"
-    )
-    if (fs.existsSync(templateDependenciesPath)) {
-      const templateDependencies = require(templateDependenciesPath)
-        .dependencies
-      args = args.concat(
-        Object.keys(templateDependencies).map(key => {
-          return `${key}@${templateDependencies[key]}`
-        })
-      )
-      fs.unlinkSync(templateDependenciesPath)
-    }
-
-    // Install react and react-dom for backward compatibility with old CRA cli
-    // which doesn't install react and react-dom along with react-scripts
-    // or template is presetend (via --internal-testing-template)
-    if (template && args.length > 1) {
-      console.log(`Installing dependencies using ${command}...`)
-      console.log()
-
-      const proc = spawn.sync(command, args, { stdio: "inherit" })
-      if (proc.status !== 0) {
-        throw new Error(`\`${command} ${args.join(" ")}\` failed`)
-      }
-    }
+    installTemplateDeps(appPath, useYarn)
 
     // Display the most elegant way to cd.
     // This needs to handle an undefined originalDirectory for
@@ -239,4 +199,46 @@ function setupGitIgnore(appPath) {
       }
     }
   )
+}
+
+function installTemplateDeps(appPath, useYarn) {
+  let command
+  let args
+
+  if (useYarn) {
+    command = "yarnpkg"
+    args = ["add"]
+  } else {
+    command = "npm"
+    args = ["install", "--save", verbose && "--verbose"].filter(e => e)
+  }
+  // args.push("typescript") // TODO: Other deps
+
+  // Install additional template dependencies, if present
+  const templateDependenciesPath = path.join(
+    appPath,
+    ".template.dependencies.json"
+  )
+  if (fs.existsSync(templateDependenciesPath)) {
+    const templateDependencies = require(templateDependenciesPath).dependencies
+    args = args.concat(
+      Object.keys(templateDependencies).map(key => {
+        return `${key}@${templateDependencies[key]}`
+      })
+    )
+    fs.unlinkSync(templateDependenciesPath)
+  }
+
+  // Install react and react-dom for backward compatibility with old CRA cli
+  // which doesn't install react and react-dom along with react-scripts
+  // or template is presetend (via --internal-testing-template)
+  if (template && args.length > 1) {
+    console.log(`Installing dependencies using ${command}...`)
+    console.log()
+
+    const proc = spawn.sync(command, args, { stdio: "inherit" })
+    if (proc.status !== 0) {
+      throw new Error(`\`${command} ${args.join(" ")}\` failed`)
+    }
+  }
 }
