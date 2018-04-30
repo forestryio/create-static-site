@@ -1,3 +1,4 @@
+"strict-mode"
 // @remove-file-on-eject
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -26,17 +27,58 @@ module.exports = function(
   originalDirectory,
   template
 ) {
+  try {
+    const ownPath = getOwnPath(appPath)
+    const useYarn = getUseYarn(appPath)
+    const templatePath = getTemplatePath(ownPath, template)
+    const appPackage = generateAppPackage(appPath, templatePath)
+    const readmeExists = renameExistingReadme(appPath)
+
+    copyTemplateToApp(templatePath, appPath)
+
+    writeAppPackage(appPath, appPackage)
+    setupGitIgnore(appPath)
+    // installTemplateDeps(appPath, useYarn)
+    printFinalMessage(
+      originalDirectory,
+      appName,
+      appPath,
+      useYarn,
+      readmeExists
+    )
+  } catch (e) {
+    console.error(e.message)
+  }
+}
+
+function getOwnPath(appPath) {
   const ownPackageName = require(path.join(__dirname, "..", "package.json"))
     .name
   const ownPath = path.join(appPath, "node_modules", ownPackageName)
-  const templatePath = path.join(ownPath, "templates", template)
-  const templatePackage = require(path.join(templatePath, "package.json"))
-  const appPackage = require(path.join(appPath, "package.json"))
-  const useYarn = fs.existsSync(path.join(appPath, "yarn.lock"))
+  return ownPath
+}
 
+function getUseYarn(appPath) {
+  return fs.existsSync(path.join(appPath, "yarn.lock"))
+}
+
+function getTemplatePath(ownPath, template) {
+  return path.join(ownPath, "templates", template)
+}
+
+function generateAppPackage(appPath, templatePath) {
+  const templatePackage = require(path.join(templatePath, "package.json"))
+  let appPackage = require(path.join(appPath, "package.json"))
+  appPackage = addTemplateDepsToPackage(templatePackage, appPackage)
+  appPackage = addStaticScriptsToPackage(appPackage)
+  return appPackage
+}
+
+function addTemplateDepsToPackage(templatePackage, appPackage) {
   // // Copy over some of the devDependencies
   appPackage.dependencies = appPackage.dependencies || {}
   appPackage.devDependencies = appPackage.devDependencies || {}
+
   if (templatePackage.dependencies) {
     appPackage.dependencies = Object.assign(
       {},
@@ -44,6 +86,7 @@ module.exports = function(
       templatePackage.dependencie
     )
   }
+
   if (templatePackage.devDependencies) {
     appPackage.dependencies = Object.assign(
       {},
@@ -52,35 +95,38 @@ module.exports = function(
     )
   }
 
+  return appPackage
+}
+
+function addStaticScriptsToPackage(appPackage) {
   // // Setup the script rules
-  appPackage.scripts = Object.assign(
-    {},
-    appPackage.scripts,
-    templatePackage.dependencies,
-    {
-      start: "static-scripts start",
-      preview: "static-scripts preview",
-      build: "static-scripts build",
-      eject: "static-scripts eject",
-    }
-  )
+  appPackage.scripts = Object.assign({}, appPackage.scripts, {
+    start: "static-scripts start",
+    preview: "static-scripts preview",
+    build: "static-scripts build",
+    eject: "static-scripts eject",
+  })
 
-  // Copy the files for the user
+  return appPackage
+}
 
-  if (fs.existsSync(templatePath)) {
-    fs.copySync(templatePath, appPath)
-  } else {
-    console.error(
+function copyTemplateToApp(templatePath, appPath) {
+  if (!fs.existsSync(templatePath)) {
+    throw new Error(
       `Could not locate supplied template: ${chalk.green(templatePath)}`
     )
-    return
   }
+  fs.copySync(templatePath, appPath)
+}
 
+function writeAppPackage(appPath, appPackage) {
   fs.writeFileSync(
     path.join(appPath, "package.json"),
     JSON.stringify(appPackage, null, 2)
   )
+}
 
+function renameExistingReadme(appPath) {
   const readmeExists = fs.existsSync(path.join(appPath, "README.md"))
   if (readmeExists) {
     fs.renameSync(
@@ -88,9 +134,14 @@ module.exports = function(
       path.join(appPath, "README.old.md")
     )
   }
+  return readmeExists
+}
 
-  // Rename gitignore after the fact to prevent npm from renaming it to .npmignore
-  // See: https://github.com/npm/npm/issues/1862
+/**
+ * Rename gitignore after the fact to prevent npm from renaming it to .npmignore
+ * See: https://github.com/npm/npm/issues/1862
+ */
+function setupGitIgnore(appPath) {
   fs.move(
     path.join(appPath, "gitignore"),
     path.join(appPath, ".gitignore"),
@@ -108,7 +159,9 @@ module.exports = function(
       }
     }
   )
+}
 
+function installTemplateDeps(appPath, template, useYarn) {
   let command
   let args
 
@@ -145,11 +198,18 @@ module.exports = function(
 
     const proc = spawn.sync(command, args, { stdio: "inherit" })
     if (proc.status !== 0) {
-      console.error(`\`${command} ${args.join(" ")}\` failed`)
-      return
+      throw new Error(`\`${command} ${args.join(" ")}\` failed`)
     }
   }
+}
 
+function printFinalMessage(
+  originalDirectory,
+  appName,
+  appPath,
+  useYarn,
+  readmeExists
+) {
   // Display the most elegant way to cd.
   // This needs to handle an undefined originalDirectory for
   // backward compatibility with old global-cli's.
