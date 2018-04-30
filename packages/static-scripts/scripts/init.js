@@ -1,3 +1,4 @@
+"strict-mode"
 // @remove-file-on-eject
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -37,7 +38,7 @@ module.exports = function(
 
     writeAppPackage(appPath, appPackage)
     setupGitIgnore(appPath)
-    installTemplateDeps(appPath, useYarn)
+    // installTemplateDeps(appPath, useYarn)
     printFinalMessage(
       originalDirectory,
       appName,
@@ -67,7 +68,7 @@ function getTemplatePath(ownPath, template) {
 
 function generateAppPackage(appPath, templatePath) {
   const templatePackage = require(path.join(templatePath, "package.json"))
-  const appPackage = require(path.join(appPath, "package.json"))
+  let appPackage = require(path.join(appPath, "package.json"))
   appPackage = addTemplateDepsToPackage(templatePackage, appPackage)
   appPackage = addStaticScriptsToPackage(appPackage)
   return appPackage
@@ -160,7 +161,7 @@ function setupGitIgnore(appPath) {
   )
 }
 
-function installTemplateDeps(appPath, useYarn) {
+function installTemplateDeps(appPath, template, useYarn) {
   let command
   let args
 
