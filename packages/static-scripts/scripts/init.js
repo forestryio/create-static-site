@@ -39,68 +39,13 @@ module.exports = function(
     writeAppPackage(appPath, appPackage)
     setupGitIgnore(appPath)
     installTemplateDeps(appPath, useYarn)
-
-    // Display the most elegant way to cd.
-    // This needs to handle an undefined originalDirectory for
-    // backward compatibility with old global-cli's.
-    let cdpath
-    if (
-      originalDirectory &&
-      path.join(originalDirectory, appName) === appPath
-    ) {
-      cdpath = appName
-    } else {
-      cdpath = appPath
-    }
-
-    // Change displayed command to yarn instead of yarnpkg
-    const displayedCommand = useYarn ? "yarn" : "npm"
-
-    console.log()
-    console.log(`Success! Created ${appName} at ${appPath}`)
-    console.log("Inside that directory, you can run several commands:")
-    console.log()
-    console.log(
-      chalk.cyan(`  ${displayedCommand} ${useYarn ? "" : "run "}start`)
+    printFinalMessage(
+      originalDirectory,
+      appName,
+      appPath,
+      useYarn,
+      readmeExists
     )
-    console.log(
-      "    Starts a local server so you can develop your site with ease."
-    )
-    console.log()
-    console.log(
-      chalk.cyan(`  ${displayedCommand} ${useYarn ? "" : "run "}build`)
-    )
-    console.log("    Bundles the app into static files for production.")
-    console.log()
-    console.log(
-      chalk.cyan(`  ${displayedCommand} ${useYarn ? "" : "run "}eject`)
-    )
-    console.log(
-      "    Removes this tool and copies build dependencies, configuration files"
-    )
-    console.log(
-      "    and scripts into the app directory. If you do this, you can’t go back!"
-    )
-    console.log()
-    console.log(chalk.cyan(`  ${displayedCommand} test`))
-    console.log("    COMING SOON: Starts the test runner.")
-    console.log()
-    console.log("We suggest that you begin by typing:")
-    console.log()
-    console.log(chalk.cyan("  cd"), cdpath)
-    console.log(
-      chalk.cyan(`  ${displayedCommand} ${useYarn ? "" : "run "}start`)
-    )
-    if (readmeExists) {
-      console.log()
-      console.log(
-        chalk.yellow(
-          "You had a `README.md` file, we renamed it to `README.old.md`"
-        )
-      )
-    }
-    console.log()
-    console.log("Happy hacking!")
   } catch (e) {
     console.error(e.message)
   }
@@ -241,4 +186,63 @@ function installTemplateDeps(appPath, useYarn) {
       throw new Error(`\`${command} ${args.join(" ")}\` failed`)
     }
   }
+}
+
+function printFinalMessage(
+  originalDirectory,
+  appName,
+  appPath,
+  useYarn,
+  readmeExists
+) {
+  // Display the most elegant way to cd.
+  // This needs to handle an undefined originalDirectory for
+  // backward compatibility with old global-cli's.
+  let cdpath
+  if (originalDirectory && path.join(originalDirectory, appName) === appPath) {
+    cdpath = appName
+  } else {
+    cdpath = appPath
+  }
+
+  // Change displayed command to yarn instead of yarnpkg
+  const displayedCommand = useYarn ? "yarn" : "npm"
+
+  console.log()
+  console.log(`Success! Created ${appName} at ${appPath}`)
+  console.log("Inside that directory, you can run several commands:")
+  console.log()
+  console.log(chalk.cyan(`  ${displayedCommand} ${useYarn ? "" : "run "}start`))
+  console.log(
+    "    Starts a local server so you can develop your site with ease."
+  )
+  console.log()
+  console.log(chalk.cyan(`  ${displayedCommand} ${useYarn ? "" : "run "}build`))
+  console.log("    Bundles the app into static files for production.")
+  console.log()
+  console.log(chalk.cyan(`  ${displayedCommand} ${useYarn ? "" : "run "}eject`))
+  console.log(
+    "    Removes this tool and copies build dependencies, configuration files"
+  )
+  console.log(
+    "    and scripts into the app directory. If you do this, you can’t go back!"
+  )
+  console.log()
+  console.log(chalk.cyan(`  ${displayedCommand} test`))
+  console.log("    COMING SOON: Starts the test runner.")
+  console.log()
+  console.log("We suggest that you begin by typing:")
+  console.log()
+  console.log(chalk.cyan("  cd"), cdpath)
+  console.log(chalk.cyan(`  ${displayedCommand} ${useYarn ? "" : "run "}start`))
+  if (readmeExists) {
+    console.log()
+    console.log(
+      chalk.yellow(
+        "You had a `README.md` file, we renamed it to `README.old.md`"
+      )
+    )
+  }
+  console.log()
+  console.log("Happy hacking!")
 }
