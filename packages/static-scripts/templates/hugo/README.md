@@ -135,7 +135,7 @@ npm run clean
 All build source and destination paths can be configured from `static-scripts.config.js`.
 
 ## Hugo
-The build commands for Hugp can be configured from `static-scripts.config.js`. Build commands are set based on the `NODE_ENV` environment variable. You can optionally load different args using the `GENERATOR_ARGS` environment variable.
+The build commands for Hugo can be configured from `static-scripts.config.js`. Build commands are set based on the `NODE_ENV` environment variable. You can optionally load different args using the `GENERATOR_ARGS` environment variable.
 
 Four options are available:
 - `default`: the default build commands that are always run
