@@ -71,6 +71,8 @@ Inside the newly created project, you can run some built-in commands:
 
 ### `npm start` or `yarn start`
 
+_Jekyll users will need to run `bundle install` first_
+
 Runs the app in development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
