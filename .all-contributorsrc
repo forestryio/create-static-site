@@ -78,6 +78,18 @@
         "bug",
         "blog"
       ]
+    },
+    {
+      "login": "Germoe",
+      "name": "Sebastian Engels",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/21285108?v=4",
+      "profile": "https://github.com/Germoe",
+      "contributions": [
+        "bug",
+        "ideas",
+        "code",
+        "doc"
+      ]
     }
   ]
 }
