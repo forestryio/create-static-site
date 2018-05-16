@@ -1,74 +1,70 @@
-const { staticScriptsConfig } = require("./paths")
-const gerateStaticScriptsConfig = require(staticScriptsConfig)
+const {staticScriptsConfig} = require("./paths")
+const generateConfig = require(staticScriptsConfig)
 
-// Todo: Create sane defaults
-module.exports = function(env) {
-  const isProduction = process.env.NODE_ENV === "production"
-  let config = gerateStaticScriptsConfig(env)
-  if (!config.generator) {
-    throw new Error("`generator` must be provided by gulp.config.js")
-  }
-  config.dest = config.dest || "site/"
-  config.src = config.src || "src/"
-  config.tmp = config.tmp || ".tmp/"
-  config.build = config.build || "dist/"
+/**
+ * Provides the underlying configuration for the generator
+ * 
+ * Pulls from the user's project for specific values, and provides
+ * sensible best practises otherwise
+ */
+module.exports = () => {
+    let config = generateConfig()
 
-  const { styles, scripts, images, svg } = config
+    if (!config.generator) {
+        throw new Error("`generator` must be provided in static-scripts.config.js")
+    }
 
-  const userConfig = Object.assign({}, config)
-  delete userConfig.styles
-  delete userConfig.scripts
-  delete userConfig.images
-  delete userConfig.svg
+    if (!config.command) {
+        throw new Error("`command` must be provided in static-scripts.config.js")
+    }
 
-  return Object.assign(
-    {
-      styles: Object.assign(
-        {
-          src: config.src + "css/*.css",
-          watch: config.src + "css/**/*.css",
-          dest: config.dest + "static/css",
-          tmp: config.tmp + "css",
+    if (!config.args || !config.args.default) {
+        throw new Error("`args.default` must be provided in static-scripts.config.js")
+    }
+
+    // Here we configure a tmp directory because we run a parellized
+    // generator and asset build to separate folders to get non-build command
+    // support for CMS' like Forestry or Siteleaf
+    const directoryConfig = {
+        src: "src/",
+        generator: "site/",
+        static: "site/",
+        tmp: ".tmp/",
+        build: "dist/",
+    }
+
+    const userConfig = {
+        generator: config.generator,
+        command: config.command,
+        args: config.args,
+        proxy: config.proxy,
+        directories: {
+            src: config.directories.src,
+            generator: config.directories.generator,
+            static: config.directories.static,
+            build: config.directories.build
+        }
+    }
+
+    return Object.assign({
+        directories: directoryConfig,
+        styles: {
+            src: directoryConfig.src + "css/*.css",
+            dest: directoryConfig.static + "css",
+            tmp: directoryConfig.tmp + "css",
         },
-        config.styles
-      ),
-      scripts: Object.assign(
-        {
-          src: config.src + "js/*+(js|jsx)",
-          watch: config.src + "js/**/*+(js|jsx)",
-          dest: config.dest + "static/js/",
-          tmp: config.tmp + "js/",
+        scripts: {
+            src: directoryConfig.src + "js/",
+            dest: directoryConfig.static + "js/",
+            tmp: directoryConfig.tmp + "js/",
         },
-        config.scripts
-      ),
-      images: Object.assign(
-        {
-          src: config.src + "img/**/*.+(png|jpg|jpeg|gif|svg|webp)",
-          watch: config.src + "img/**/*.+(png|jpg|jpeg|gif|svg|webp)",
-          dest: config.dest + "static/img/",
+        images: {
+            src: directoryConfig.src + "img/**/*",
+            dest: directoryConfig.static + "img/"
         },
-        config.images
-      ),
-      svg: Object.assign(
-        {
-          src: config.src + "img/**/*.svg",
-          watch: config.src + "img/**/*.svg",
-          dest: config.dest + "static/svg/",
-          config: {
-            dest: ".",
-            mode: {
-              symbol: {
-                sprite: "sprite.symbol.svg",
-                prefix: "svg-%s",
-                dest: ".",
-              },
-            },
-            example: !isProduction,
-          },
-        },
-        config.svg
-      ),
-    },
-    userConfig
-  )
+        svg: {
+            src: directoryConfig.src + "img/**/*.svg",
+            dest: directoryConfig.static + "svg/",
+        }
+    }, userConfig)
 }

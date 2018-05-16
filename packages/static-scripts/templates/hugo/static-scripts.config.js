@@ -1,31 +1,23 @@
-// Configures gulp build
-// See gulpfile.babel.js for build pipeline
-const { resolve } = require("path")
-const hugo = require("hugo-bin")
+/**
+ * Configuration file for create-static-site
+ * A zero configuration build tool for static sites
+ * https://github.com/forestryio/create-static-site/
+ */
+const {resolve} = require("path")
 
-module.exports = function(env) {
-  return {
-    generator: {
-      label: "Hugo",
-      command: hugo,
-      args: {
-        default: [
-          "-v",
-          "--source",
-          resolve("site/"),
-          "--destination",
-          resolve("dist/"),
-        ],
-        development: [
-          "-b",
-          "http://localhost:3000",
-          "--buildDrafts",
-          "--buildFuture",
-          "--buildExpired",
-        ],
-        preview: ["-b", "http://localhost:3000"],
+module.exports = () => ({
+    generator: "Hugo", // e.g, "Hugo"
+    command: require("hugo-bin"), // e.g, require("hugo-bin"),
+    proxy: false,
+    args: {
+        default: ["--verbose", "--source", resolve("site/"), "--destination", resolve("dist/")],
+        development: ["-b", "http://localhost:3000", "--buildDrafts", "--buildFuture", "--buildExpired"],
         production: [],
-      },
     },
-  }
-}
+    directories: {
+        src: "src/",
+        build: "dist/",
+        static: "dist/static/",
+        generator: "site/"
+    }
+})

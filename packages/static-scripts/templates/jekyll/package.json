@@ -19,8 +19,5 @@
       "./node_modules/stylelint/bin/stylelint.js src/css/**/*.css",
     "stylelint:scss":
       "./node_modules/stylelint/bin/stylelint.js src/scss/**/*.scss"
-  },
-  "devDependencies": {
-    "gulp": "^3.9.1"
   }
 }
